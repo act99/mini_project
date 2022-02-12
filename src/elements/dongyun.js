@@ -8,4 +8,6 @@ const dongyun = () => {
   );
 };
 
+const div = styled.div;
+
 export default dongyun;
