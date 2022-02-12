@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { deleteCookie, setCookie } from "../../shared/Cookie";
+import axios from "axios";
 
 // actions
 const LOG_OUT = "LOG_OUT";
@@ -18,18 +19,51 @@ const initialState = {
 };
 
 // middleware actions
-const loginFB = (id, pwd) => {
+const loginDB = (id, pwd) => {
   return function (dispatch, getState, { history }) {
-    // const user = userCredential.user;
-    dispatch(
-      setUser({
-        user_name: id,
-        id: id,
-        user_profile: "",
-        uid: "test",
+    axios({
+      method: "POST",
+      url: "http://3.36.65.28:8080/user/login/",
+
+      // data: JSON.stringify({
+      //   username: id,
+      //   password: pwd,
+      // }),
+
+      data: {
+        username: id,
+        password: pwd,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(
+          setUser({ email: res.data.email, nickname: res.data.nickname })
+        );
+        history.push("/");
       })
-    );
-    // 세션에 인증 지속 추가
+      .catch((error) => console.log(error));
+  };
+};
+
+const SignUpDB = (id, pwd, nickname) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "POST",
+      url: "http://3.36.65.28:8080/user/login",
+      data: {
+        username: id,
+        password: pwd,
+        nickname: nickname,
+      },
+    })
+      .then((res) => {
+        alert("회원가입 성공");
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 };
 
@@ -59,7 +93,8 @@ export default handleActions(
 const actionCreators = {
   logOut,
   getUser,
-  loginFB,
+  loginDB,
+  SignUpDB,
 };
 
 export { actionCreators };

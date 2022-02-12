@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/loginReducer";
+import { hexToRgb } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -44,7 +45,7 @@ export default function Signin() {
       alert("비밀번호가 공란입니다.");
     } else {
       // dispatch(userActions);
-      dispatch(userActions.loginFB(data.get("email"), data.get("password")));
+      dispatch(userActions.loginDB(data.get("email"), data.get("password")));
       console.log({
         email: data.get("email"),
         password: data.get("password"),
@@ -81,12 +82,19 @@ export default function Signin() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            로그인
-          </Typography>
+          <Grid container>
+            <Grid item xs sx={{ mt: 5 }}>
+              <Typography
+                component="h1"
+                variant="h5"
+                sx={{ fontWeight: "bold", ml: 1 }}
+              >
+                이메일로 로그인
+              </Typography>
+            </Grid>
+            <Grid item></Grid>
+          </Grid>
+
           <Box
             component="form"
             noValidate
@@ -118,9 +126,15 @@ export default function Signin() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: "#f86453", py: 1.5 }}
             >
-              로그인
+              <Typography
+                component="h2"
+                variant="h6"
+                sx={{ fontWeight: "bold", ml: 1 }}
+              >
+                로그인
+              </Typography>
             </Button>
             <Grid container>
               <Grid item xs sx={{ mt: 5 }}>
