@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import NavBar from "./components/NavBar";
+import AddPost from "./pages/AddPost";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
+          <Route path="/addpost" exact component={AddPost} />
         </Container>
       </ConnectedRouter>
     </>
