@@ -11,6 +11,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/loginReducer";
 
 function Copyright(props) {
   return (
@@ -31,6 +33,7 @@ function Copyright(props) {
 }
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,6 +48,8 @@ export default function Signup() {
     } else if (data.get("password") !== data.get("checkPassword")) {
       alert("비밀번호가 일치하지 않습니다.");
     } else {
+      dispatch(userActions.SignUpDB(data.get("email"), data.get("password")));
+
       console.log({
         email: data.get("email"),
         nickname: data.get("nickname"),
@@ -83,12 +88,18 @@ export default function Signup() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
+          <Grid container>
+            <Grid item xs sx={{ mt: 5 }}>
+              <Typography
+                component="h1"
+                variant="h5"
+                sx={{ fontWeight: "bold", ml: 1 }}
+              >
+                회원가입
+              </Typography>
+            </Grid>
+            <Grid item></Grid>
+          </Grid>
           <Box
             component="form"
             noValidate
@@ -140,9 +151,15 @@ export default function Signup() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: "#f86453", py: 1.5 }}
             >
-              회원가입
+              <Typography
+                component="h2"
+                variant="h6"
+                sx={{ fontWeight: "bold", ml: 1 }}
+              >
+                회원가입
+              </Typography>
             </Button>
             {/* <Grid container>
               <Grid item xs>
