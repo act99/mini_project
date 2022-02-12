@@ -2,6 +2,8 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { deleteCookie, setCookie } from "../../shared/Cookie";
 import axios from "axios";
+import { apis } from "../../shared/api";
+import { setAuthorizationToken } from "../../shared/setAuthorizationToken";
 
 // actions
 const LOG_OUT = "LOG_OUT";
@@ -12,6 +14,7 @@ const SET_USER = "SET_USER";
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
+
 // initialState
 const initialState = {
   user: null,
@@ -21,49 +24,28 @@ const initialState = {
 // middleware actions
 const loginDB = (id, pwd) => {
   return function (dispatch, getState, { history }) {
-    axios({
-      method: "POST",
-      url: "http://3.36.65.28:8080/user/login/",
-
-      // data: JSON.stringify({
-      //   username: id,
-      //   password: pwd,
-      // }),
-
-      data: {
-        username: id,
-        password: pwd,
-      },
-    })
+    apis
+      .login(id, pwd)
       .then((res) => {
-        console.log(res);
-        dispatch(
-          setUser({ email: res.data.email, nickname: res.data.nickname })
-        );
-        history.push("/");
+        console.log(res.headers);
+        const token = res.headers["authorization"];
+        localStorage.setItem("jwtToken", token);
+        setAuthorizationToken(token);
       })
       .catch((error) => console.log(error));
+    // apis
+    //   .login(id, pwd)
+    //   .then((res) => console.log(res))
+    //   .catch((error) => console.log(error));
   };
 };
 
-const SignUpDB = (id, pwd, nickname) => {
+const SignUpDB = (id, nickname, pwd, passwordcheck) => {
   return function (dispatch, getState, { history }) {
-    axios({
-      method: "POST",
-      url: "http://3.36.65.28:8080/user/login",
-      data: {
-        username: id,
-        password: pwd,
-        nickname: nickname,
-      },
-    })
-      .then((res) => {
-        alert("회원가입 성공");
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    apis
+      .singup(id, nickname, pwd, passwordcheck)
+      .then((res) => console.log(res, "회원가입 성공"))
+      .catch((error) => console.log(error));
   };
 };
 

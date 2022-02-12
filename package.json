@@ -2,6 +2,7 @@
   "name": "gongguri",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://3.36.65.28:8080",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -13,7 +14,9 @@
     "axios": "^0.25.0",
     "connected-react-router": "^6.8.0",
     "history": "^4.10.1",
+    "http-proxy-middleware": "^2.0.3",
     "immer": "^9.0.12",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^17.0.2",
