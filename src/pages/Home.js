@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
+
+import Grid from "../elements/Grid";
 import { useSelector } from "react-redux";
 
 const Home = () => {
@@ -8,7 +10,7 @@ const Home = () => {
   return (
     <>
       <Wrap>
-        <h3>홈 화면입니다.</h3>
+        <Grid>홈 화면입니다.</Grid>
       </Wrap>
     </>
   );
