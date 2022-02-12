@@ -53,7 +53,7 @@ export default function Signin() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: "92.7vh" }}>
       <CssBaseline />
       <Grid
         item
@@ -85,7 +85,7 @@ export default function Signin() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            로그인
           </Typography>
           <Box
             component="form"
@@ -98,7 +98,7 @@ export default function Signin() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="이메일"
               name="email"
               autoComplete="email"
               autoFocus
@@ -108,36 +108,31 @@ export default function Signin() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              로그인
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid item xs sx={{ mt: 5 }}>
+                <Typography variant="caption">
+                  아직도 공구리 계정이 없으신가요?{" "}
+                  <Link href="/signup" variant="body2">
+                    {"회원가입"}
+                  </Link>
+                </Typography>
               </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+              <Grid item></Grid>
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
           </Box>
         </Box>
       </Grid>

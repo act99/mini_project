@@ -10,12 +10,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
     <>
       <ConnectedRouter history={history}>
         <CssBaseline />
+        <NavBar />
         <Container maxWidth="xl">
           <Route path="/" exact component={Home} />
           <Route path="/signin" exact component={Signin} />
