@@ -15,7 +15,7 @@ const Home = () => {
 };
 
 const Wrap = styled.div`
-  width: 60%;
+  width: 100%;
   background-color: aliceblue;
   h3 {
     margin-block-start: 0em;

@@ -4,18 +4,23 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "./redux/store";
 import Home from "./pages/Home";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "@emotion/styled";
 import theme from "./shared/theme";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
     <>
       <ConnectedRouter history={history}>
-        <ThemeProvider theme={theme}>
-          <Wrap>
-            <Route path="/" exact component={Home} />
-          </Wrap>
-        </ThemeProvider>
+        <CssBaseline />
+        <Container maxWidth="xl">
+          <Route path="/" exact component={Home} />
+          <Route path="/signin" exact component={Signin} />
+          <Route path="/signup" exact component={Signup} />
+        </Container>
       </ConnectedRouter>
     </>
   );
