@@ -34,7 +34,7 @@ function App() {
           <Route path="/signup" exact component={Signup} />
           <Route path="/popular" exact component={Popular} />
           <Route path="/addpost" exact component={AddPost} />
-          <Route path="/detail" exact component={Detail} />
+          <Route path="/detail/:id" exact component={Detail} />
           <Route path="/new" exact component={New} />
         </Container>
       </ConnectedRouter>
