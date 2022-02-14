@@ -125,6 +125,7 @@ export default function Signin() {
             <Button
               type="submit"
               fullWidth
+              color="error"
               variant="contained"
               sx={{ mt: 3, mb: 2, backgroundColor: "#f86453", py: 1.5 }}
             >

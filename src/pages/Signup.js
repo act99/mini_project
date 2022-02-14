@@ -158,6 +158,7 @@ export default function Signup() {
               type="submit"
               fullWidth
               variant="contained"
+              color="error"
               sx={{ mt: 3, mb: 2, backgroundColor: "#f86453", py: 1.5 }}
             >
               <Typography
