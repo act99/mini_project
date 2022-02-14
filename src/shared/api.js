@@ -16,13 +16,14 @@ api.interceptors.request.use(function (config) {
 
 export const apis = {
   login: (id, pwd) => api.post("/user/login", { username: id, password: pwd }),
-  singup: (id, nickname, pwd, passwordcheck) =>
+  signup: (id, nickname, pwd, passwordcheck) =>
     api.post("/user/signup", {
       username: id,
       nickname: nickname,
       password: pwd,
       passwordcheck: passwordcheck,
     }),
+  userInfo: () => api.get(`/user/info`),
   // article
   // add: (contents) => api.post("/api/articles", contents),
   // edit: (id, contents) => api.put(`api/articles/${id}`, contents),
