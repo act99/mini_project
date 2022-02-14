@@ -1,9 +1,13 @@
 const getCookie = (name) => {
-  let value = "; " + document.cookie;
-  let parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop().split(";").shift();
-  }
+  let value = document.cookie;
+  let parts = value.split(`=`);
+  parts.shift();
+  console.log(parts[0]);
+  let result = parts[0];
+  return result;
+  // if (parts.length === 2) {
+  //   return parts.pop().split(";").shift();
+  // }
 };
 const setCookie = (name, value, exp = 5) => {
   const date = new Date();
