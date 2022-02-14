@@ -155,7 +155,9 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {isLogin === true ? <Link to="/">프로젝트 올리기</Link> : null}
+            {isLogin === true ? (
+              <Link to="/addpost">프로젝트 올리기</Link>
+            ) : null}
 
             {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기

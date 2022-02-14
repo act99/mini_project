@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <ConnectedRouter history={history}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <NavBar />
         <Container maxWidth="xl">
           <Route path="/" exact component={Home} />
