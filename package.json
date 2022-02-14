@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "http://3.36.65.28:8080",
   "dependencies": {
+    "@date-io/date-fns": "^2.13.1",
+    "@date-io/dayjs": "^2.13.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.1",

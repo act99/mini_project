@@ -67,7 +67,7 @@ export default function Signup() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "92.7vh" }}>
+    <Grid container component="main" sx={{ height: "92vh", margin: "0.7vh" }}>
       <CssBaseline />
       <Grid
         item

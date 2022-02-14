@@ -13,11 +13,19 @@ import Signup from "./pages/Signup";
 import NavBar from "./components/NavBar";
 import AddPost from "./pages/AddPost";
 import Popular from "./pages/Popular";
+import New from "./pages/New";
+import { actionCreators as loginActions } from "./redux/modules/loginReducer";
+import { useDispatch } from "react-redux";
 function App() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    if (document.cookie) dispatch(loginActions.loginCheckDB());
+  }, []);
+
   return (
     <>
       <ConnectedRouter history={history}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <NavBar />
         <Container maxWidth="xl">
           <Route path="/" exact component={Home} />
@@ -25,6 +33,7 @@ function App() {
           <Route path="/signup" exact component={Signup} />
           <Route path="/popular" exact component={Popular} />
           <Route path="/addpost" exact component={AddPost} />
+          <Route path="/new" exact component={New} />
         </Container>
       </ConnectedRouter>
     </>

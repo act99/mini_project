@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/loginReducer";
 import { hexToRgb } from "@mui/material";
+import { getCookie } from "../shared/Cookie";
 
 function Copyright(props) {
   return (
@@ -54,7 +55,7 @@ export default function Signin() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "92.7vh" }}>
+    <Grid container component="main" sx={{ height: "92vh", margin: "0.7vh" }}>
       <CssBaseline />
       <Grid
         item
@@ -137,6 +138,7 @@ export default function Signin() {
                 로그인
               </Typography>
             </Button>
+            <Button onClick={() => getCookie("token")}>쿠키확인</Button>
             <Grid container>
               <Grid item xs sx={{ mt: 5 }}>
                 <Typography variant="caption">

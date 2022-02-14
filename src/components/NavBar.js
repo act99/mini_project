@@ -11,50 +11,77 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import Link from "@mui/material/Link";
+import { Link, useHistory } from "react-router-dom";
+import { getCookie } from "../shared/Cookie";
+import { set } from "lodash";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as loginActions } from "../redux/modules/loginReducer";
 
 const pages = ["홈", "인기", "신규"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const history = useHistory();
+  const [isLogin, setIsLogin] = React.useState(false);
   const handleOpenNavMenu = (event) => {
     console.log(event);
     setAnchorElNav(event.currentTarget);
   };
+  const user = useSelector((state) => state.loginReducer.userinfo);
+  const dispatch = useDispatch();
+  console.log(user);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
     console.log(event);
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
     setAnchorElNav(null);
-    console.log("hi");
+    if (e.target.id === "홈") {
+      history.push("/");
+    } else if (e.target.id === "인기") {
+      history.push("/popular");
+    } else if (e.target.id === "신규") {
+      history.push("/new");
+    } else {
+      console.log(e.target.id);
+    }
+  };
+  const logoutHandler = () => {
+    dispatch(loginActions.logOutDB());
+    history.push("/");
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  React.useEffect(() => {
+    if (getCookie("token")) {
+      setIsLogin(true);
+    }
+    console.log(isLogin);
+  }, []);
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#ffffff" }}>
       <Container maxWidth="xl" bgcolor="#ffffff">
         <Toolbar disableGutters sx={{ bgcolor: "#ffffff" }}>
-          <Typography
-            fontFamily="-apple-system"
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{
-              mr: 1,
-              color: "#000000",
-              display: { xs: "none", md: "flex" },
-            }}
-          >
-            <div>GongGuRi</div> {/* 공구리 */}
-          </Typography>
-
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Typography
+              fontFamily="-apple-system"
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                mr: 1,
+                color: "#000000",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              <div>GongGuRi</div> {/* 공구리 */}
+            </Typography>
+          </Link>
           <Box
             sx={{
               flexGrow: 1,
@@ -92,7 +119,7 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} id={page} onClick={handleCloseNavMenu}>
                   {" "}
                   {/* 홈 인기 신규 */}
                   <Typography textAlign="center">{page}</Typography>
@@ -111,6 +138,7 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
+                id={page}
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{
@@ -127,10 +155,26 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Link href="/" color="#000000" sx={{ mr: 10 }}>
+            {isLogin === true ? (
+              <Link to="/addpost">프로젝트 올리기</Link>
+            ) : null}
+
+            {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기
-            </Link>
-            <Button variant="outlined">로그인 / 회원가입</Button>
+            </Link> */}
+            {isLogin === true ? (
+              <Button variant="outlined" onClick={logoutHandler}>
+                로그아웃
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                onClick={() => history.push("/signin")}
+              >
+                로그인 / 회원가입
+              </Button>
+            )}
+
             <Menu open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
               <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center"></Typography>
