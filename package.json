@@ -2,7 +2,6 @@
   "name": "gongguri",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://3.36.65.28:8080",
   "dependencies": {
     "@date-io/date-fns": "^2.13.1",
     "@date-io/dayjs": "^2.13.1",
