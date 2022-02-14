@@ -12,7 +12,8 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Test from "./pages/Test";
 import NavBar from "./components/NavBar";
-
+import AddPost from "./pages/AddPost";
+import Popular from "./pages/Popular";
 function App() {
   return (
     <>
@@ -23,7 +24,9 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
-          <Route path="/test" exact component={Test} />
+          <Route path="/popular" exact component={Popular} />
+          <Route path="/addpost" exact component={AddPost} />
+
         </Container>
       </ConnectedRouter>
     </>
