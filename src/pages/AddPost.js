@@ -41,6 +41,8 @@ const AddPage = () => {
       title: data.get("title"),
       content: data.get("desc"),
       endAt: date.toISOString().substring(0, 10),
+      minimum: data.get("minimum"),
+      price: data.get("price"),
     };
     if (data.get("title").length < 1) {
       alert("프로젝트 이름을 적어주세요");
@@ -55,27 +57,22 @@ const AddPage = () => {
         moment().format("YYYY-MM-DD").slice(8, 10) * 1
     ) {
       alert("현재 날짜보다 미래의 날짜를 정해주세요.");
+    } else if (
+      data.get("price") <= 0 ||
+      data.get("price") === null ||
+      data.get("price") === undefined
+    ) {
+      alert("금액을 입력해주세요.");
+    } else if (
+      data.get("minimum") <= 0 ||
+      data.get("minimum") === null ||
+      data.get("minimum") === undefined
+    ) {
+      alert("최소 후원자 수를 입력해주세요.");
     } else {
       console.log("Okay!");
       dispatch(postActions.addPostDB(contents));
     }
-    // eslint-disable-next-line no-console
-    // if (data.get("email") === "") {
-    //   alert("아이디가 공란입니다.");
-    // } else if (data.get("password") === "") {
-    //   alert("비밀번호가 공란입니다.");
-    // } else if (data.get("nickname") === "") {
-    //   alert("닉네임이 공란입니다.");
-    // } else if (data.get("password") !== data.get("checkPassword")) {
-    //   alert("비밀번호가 일치하지 않습니다.");
-    // } else {
-    //   console.log({
-    //     email: data.get("email"),
-    //     nickname: data.get("nickname"),
-    //     password: data.get("password"),
-    //     checkPassword: data.get("checkPassword"),
-    //   });
-    // }
   };
 
   // 이미지 업로드
@@ -169,6 +166,44 @@ const AddPage = () => {
             hidden
           />
         </Button>
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ fontWeight: "bold", ml: 1, my: 3 }}
+        >
+          물건 개당 가격을 입력해주세요.
+        </Typography>
+        <TextField
+          type="number"
+          required
+          id="outlined-required"
+          name="price"
+          label="가격"
+          style={{
+            width: "50%",
+            // margin: "30px auto 0px auto",
+            minWidth: "470px",
+          }}
+        />
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ fontWeight: "bold", ml: 1, my: 3 }}
+        >
+          최소 후원자 수를 입력해주세요.
+        </Typography>
+        <TextField
+          type="number"
+          required
+          id="outlined-required"
+          name="minimum"
+          label="후원자 수"
+          style={{
+            width: "50%",
+            // margin: "30px auto 0px auto",
+            minWidth: "470px",
+          }}
+        />
         <Typography
           component="h1"
           variant="h5"

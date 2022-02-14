@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import { actionCreators as postActions } from "../redux/modules/postReducer";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,7 +26,11 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function Home() {
   const post = useSelector((state) => state.post);
+  const dispatch = useDispatch();
   console.log(post);
+  React.useEffect(() => {
+    // dispatch(postActions.getPostDB());
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

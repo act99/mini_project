@@ -31,9 +31,16 @@ const initalPost = {
   minimum: 100,
 };
 
-const getPost = () => {
-  return function (dispatch, getState, { history }) {};
+const getPostDB = () => {
+  return function (dispatch, getState, { history }) {
+    apis.getPosts().then((res) => console.log(res));
+  };
 };
+// const editPostDB = (postID, contents) => {
+//   apis.edit(postID, contents).then((res) => {
+//     console.log(res);
+//   });
+// };
 
 const addPostDB = (contents) => {
   let postContent = {
@@ -41,6 +48,8 @@ const addPostDB = (contents) => {
     title: contents.title,
     content: contents.content,
     endAt: contents.endAt,
+    price: contents.price,
+    minimum: contents.minimum,
   };
   return function (dispatch, getState, { history }) {
     apis.add(postContent).then((res) => {
@@ -89,6 +98,7 @@ const actionCreators = {
   editPost,
   deletePost,
   addPostDB,
+  getPostDB,
 };
 
 export { actionCreators };
