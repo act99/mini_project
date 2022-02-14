@@ -1,6 +1,7 @@
 import produce from "immer";
 import moment from "moment";
 import { createAction, handleActions } from "redux-actions";
+import { apis } from "../../shared/api";
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -20,20 +21,33 @@ const initialState = {
 };
 
 const initalPost = {
-  id: 0,
-  user_info: {
-    user_name: "유저이름",
-    user_profile:
-      "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  },
-  image_url:
-    "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-  contents: "콘텐츠입니다.",
-  insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+  title: "제목",
+  content: "내용",
+  imageUrl:
+    "https://firebasestorage.googleapis.com/v0/b/sparta-advanced.appspot.com/o/images%2F8vbGIWMVoacxfxM7KmOKBJJF7ED2_1644239482543?alt=media&token=8fd07d45-d907-46b6-ad86-e47a1c6b73cf",
+  startAt: moment().format("YYYY-MM-DD"),
+  endAt: moment().format("YYYY-MM-DD"),
+  price: 3000,
+  minimum: 100,
 };
 
 const getPost = () => {
   return function (dispatch, getState, { history }) {};
+};
+
+const addPostDB = (contents) => {
+  let postContent = {
+    ...initalPost,
+    title: contents.title,
+    content: contents.content,
+    endAt: contents.endAt,
+  };
+  return function (dispatch, getState, { history }) {
+    apis.add(postContent).then((res) => {
+      dispatch(addPost(postContent));
+      history.push("/");
+    });
+  };
 };
 
 export default handleActions(
@@ -69,11 +83,12 @@ export default handleActions(
   initialState
 );
 
-const actionsCreators = {
+const actionCreators = {
   setPost,
   addPost,
   editPost,
   deletePost,
+  addPostDB,
 };
 
-export { actionsCreators };
+export { actionCreators };

@@ -9,8 +9,15 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { makeStyles, TextareaAutosize } from "@mui/material";
+import DateAdapter from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import MobileDatePicker from "@mui/lab/MobileDatePicker";
+import Image from "../elements/Image";
+import moment from "moment";
+import { actionCreators as postActions } from "../redux/modules/postReducer";
 const AddPage = () => {
   const dispatch = useDispatch();
+  // 이미지 업로드
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
   //"2014-08-18T21:11:54" = > 현재꼴로 변경
@@ -22,13 +29,36 @@ const AddPage = () => {
 
   // 날짜 핸들링
   const handleDate = (event) => {
-    console.log(event);
+    setDate(event);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(date.toISOString().substring(0, 10).slice(8, 10) * 1);
     console.log(data.get("title"), data.get("desc"));
+    let contents = {
+      title: data.get("title"),
+      content: data.get("desc"),
+      endAt: date.toISOString().substring(0, 10),
+    };
+    if (data.get("title").length < 1) {
+      alert("프로젝트 이름을 적어주세요");
+    } else if (data.get("desc").length < 11) {
+      alert("소개글을 최소 10자 이상 적어주세요.");
+    } else if (
+      date.toISOString().substring(0, 10).slice(0, 4) * 1 <
+        moment().format("YYYY-MM-DD").slice(0, 4) * 1 ||
+      date.toISOString().substring(0, 10).slice(5, 7) * 1 <
+        moment().format("YYYY-MM-DD").slice(5, 7) * 1 ||
+      date.toISOString().substring(0, 10).slice(8, 10) * 1 <=
+        moment().format("YYYY-MM-DD").slice(8, 10) * 1
+    ) {
+      alert("현재 날짜보다 미래의 날짜를 정해주세요.");
+    } else {
+      console.log("Okay!");
+      dispatch(postActions.addPostDB(contents));
+    }
     // eslint-disable-next-line no-console
     // if (data.get("email") === "") {
     //   alert("아이디가 공란입니다.");
@@ -48,6 +78,23 @@ const AddPage = () => {
     // }
   };
 
+  // 이미지 업로드
+  const fileInput = React.useRef(null);
+  const [upload, setUpload] = React.useState(false);
+  const selectFile = (e) => {
+    console.log(e.target.files);
+    console.log(fileInput.current.files[0]);
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      console.log(reader.result);
+      // dispatch(imageActions.setPreview(reader.result));
+    };
+    setUpload(true);
+  };
+
+  console.log(date);
   return (
     <Grid
       container
@@ -85,8 +132,43 @@ const AddPage = () => {
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
-          날짜를 선택해주세요.
+          모금을 종료하실 날짜를 선택해주세요.
         </Typography>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+          <MobileDatePicker
+            label="종료 날짜"
+            inputFormat="MM/dd/yyyy"
+            value={date}
+            onChange={handleDate}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ fontWeight: "bold", ml: 1, my: 3 }}
+        >
+          이미지를 선택해주세요.
+        </Typography>
+        <Box sx={{ width: "100%", maxWidth: 500, minHeight: 375 }}>
+          <Image />
+        </Box>
+
+        <Button
+          variant="contained"
+          component="label"
+          color="error"
+          sx={{ backgroundColor: "#f86453", mt: 5, mb: 10 }}
+        >
+          Upload File
+          <input
+            type="file"
+            onChange={selectFile}
+            ref={fileInput}
+            // disabled={is_uploading}
+            hidden
+          />
+        </Button>
         <Typography
           component="h1"
           variant="h5"

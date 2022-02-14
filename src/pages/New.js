@@ -31,7 +31,7 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const theme = createTheme();
 
-export default function Popualr() {
+export default function New() {
   const [rate, setRate] = React.useState("");
 
   const handleChange = (event) => {
@@ -61,9 +61,6 @@ export default function Popualr() {
             {cards.map((card) => (
               <Grid item key={card} xs={12} sm={6} md={3}>
                 <Card
-                  onClick={() => {
-                    console.log("인기 카드 클릭!");
-                  }}
                   sx={{
                     height: "422px",
                     display: "flex",
@@ -98,7 +95,7 @@ export default function Popualr() {
                     </Typography>
                     <FundingStatus>
                       <span>25%</span>
-                      <span>100원</span>
+                      <span>1oo원</span>
                       <span>100일 남음</span>
                     </FundingStatus>
                   </CardContent>

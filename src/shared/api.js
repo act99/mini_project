@@ -1,10 +1,14 @@
 import axios from "axios";
 
+const tokenCheck = document.cookie;
+const token = tokenCheck.split("=")[1];
 const api = axios.create({
   baseURL: "http://3.36.65.28:8080",
+
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
+    token: token,
   },
 });
 
@@ -23,7 +27,11 @@ export const apis = {
       password: pwd,
       passwordcheck: passwordcheck,
     }),
-  userInfo: () => api.get(`/user/info`),
+  userInfo: (token) =>
+    api.post(`/user/userinfo`, {
+      authorization: token,
+    }),
+  add: (contents) => api.post("/api/posts", contents),
   // article
   // add: (contents) => api.post("/api/articles", contents),
   // edit: (id, contents) => api.put(`api/articles/${id}`, contents),
