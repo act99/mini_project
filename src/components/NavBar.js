@@ -11,23 +11,26 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Link from "@mui/material/Link";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = ["홈", "인기", "신규"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
+    console.log(event);
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    console.log(event);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+    console.log("hi");
   };
 
   const handleCloseUserMenu = () => {
@@ -35,19 +38,30 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+    <AppBar position="static" sx={{ bgcolor: "#ffffff" }}>
+      <Container maxWidth="xl" bgcolor="#ffffff">
+        <Toolbar disableGutters sx={{ bgcolor: "#ffffff" }}>
           <Typography
+            fontFamily="-apple-system"
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+            sx={{
+              mr: 1,
+              color: "#000000",
+              display: { xs: "none", md: "flex" },
+            }}
           >
-            LOGO
+            <div>GongGuRi</div> {/* 공구리 */}
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              bgcolor: "#ffffff",
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -58,6 +72,7 @@ const NavBar = () => {
             >
               <MenuIcon />
             </IconButton>
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -78,6 +93,8 @@ const NavBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  {" "}
+                  {/* 홈 인기 신규 */}
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -89,14 +106,20 @@ const NavBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            LOGO
+            <div>GongGuRi</div>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  fontweignt: "bold",
+                  fontsize: "10px",
+                  my: 2,
+                  color: "black",
+                  display: "block",
+                }}
               >
                 {page}
               </Button>
@@ -104,32 +127,14 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+            <Link href="/" color="#000000" sx={{ mr: 10 }}>
+              프로젝트 올리기
+            </Link>
+            <Button variant="outlined">로그인 / 회원가입</Button>
+            <Menu open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center"></Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

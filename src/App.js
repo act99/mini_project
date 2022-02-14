@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import NavBar from "./components/NavBar";
+import Mui from "./components/Mui";
 
 function App() {
   return (
