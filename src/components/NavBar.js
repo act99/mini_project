@@ -38,8 +38,8 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "#ffffff" }}>
-      <Container maxWidth="xl" bgcolor="#ffffff">
+    <AppBar position="static" sx={{ bgcolor: "#ffffff", mb: 5 }}>
+      <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ bgcolor: "#ffffff" }}>
           <Typography
             fontFamily="-apple-system"
@@ -59,7 +59,6 @@ const NavBar = () => {
             sx={{
               flexGrow: 1,
               display: { xs: "flex", md: "none" },
-              bgcolor: "#ffffff",
             }}
           >
             <IconButton

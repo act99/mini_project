@@ -10,7 +10,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
-import Test from "./pages/Test";
+import Detail from "./pages/Detail";
 import NavBar from "./components/NavBar";
 import AddPost from "./pages/AddPost";
 import Popular from "./pages/Popular";
@@ -26,7 +26,7 @@ function App() {
           <Route path="/signup" exact component={Signup} />
           <Route path="/popular" exact component={Popular} />
           <Route path="/addpost" exact component={AddPost} />
-
+          <Route path="/detail" exact component={Detail} />
         </Container>
       </ConnectedRouter>
     </>
