@@ -11,11 +11,11 @@ export default function BasicCard() {
     <>
       <Box
         sx={{
-          width: 40,
-          height: 40,
+          width: 42,
+          height: 35,
+          m: "auto", //11111111111111
+          textAlign: "center", //22222222222222
           pt: 1,
-          pl: 0.5,
-          ml: 83,
           backgroundColor: "#f1f1f5",
           "&:hover": {
             backgroundColor: "primary.main",
@@ -27,22 +27,26 @@ export default function BasicCard() {
       </Box>
       <br />
       <Typography
-        variant="h3"
+        variant="h4"
         component="div"
-        sx={{ fontweight: "20", mx: 45 }}
+        sx={{ fontWeight: "500", m: "auto", textAlign: "center" }} //3333333333333333
       >
         마음을 다독이는 힐링 테라피
       </Typography>
       <br />
-      <Typography variant="h6" component="span" sx={{ mx: 75, my: 10 }}>
+      <Typography
+        variant="h6"
+        component="div"
+        sx={{ m: "auto", textAlign: "center" }} //444444444444444444444
+      >
         HWIYAYA 휘야야
       </Typography>
       <br />
-      <Typography sx={{ display: "flex", flexDirection: "low" }}>
-        <Typography sx={{ m: 10 }}>
+      <Box sx={{ display: "flex", flexDirection: "low" }}>
+        <Box sx={{ m: 10 }}>
           <img src="https://tumblbug-pci.imgix.net/1707fb6cb8ce42a8cc0e976994c65e4c14b54019/d7a43f48957f84a5a8c7c6a1cee7c3587c7b607b/dde94b6cb146081ca58d3aab56cf1adbb9847b57/f68dc68d-d379-462a-bd4f-76a171497778.jpeg?ixlib=rb-1.1.0&w=620&h=465&auto=format%2Ccompress&lossless=true&fit=crop&s=ee5f92bbb7c150207032120aed20fa4f" />
-        </Typography>
-        <Typography
+        </Box>
+        <Box
           component="div"
           sx={{ display: "flex", flexDirection: "column", mt: 10 }}
         >
@@ -93,7 +97,10 @@ export default function BasicCard() {
           </Card>
           <Card sx={{ minWidth: 275, width: 360, mt: 5, bgcolor: "#f1f1f5" }}>
             <CardContent>
-              <Typography sx={{ mb: 1.5, fontweight: "20" }} color="text.first">
+              <Typography
+                sx={{ mb: 1.5, fontWeight: "bold" }}
+                color="text.first"
+              >
                 펀드진행중
               </Typography>
               <Typography variant="body2">
@@ -110,8 +117,8 @@ export default function BasicCard() {
           >
             이 프로젝트 후원하기
           </Button>
-        </Typography>
-      </Typography>
+        </Box>
+      </Box>
     </>
   );
 }
