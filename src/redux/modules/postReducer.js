@@ -10,7 +10,7 @@ const DELETE_POST = "DELETE_POST";
 
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post_list) => ({ post_list }));
-const deletePost = createAction(DELETE_POST, (post_list) => ({ post_list }));
+const deletePost = createAction(DELETE_POST, (post_id) => ({ post_id }));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post_id,
   post,
@@ -54,6 +54,7 @@ const deletePostDB = (postId) => {
     apis
       .delete(postId)
       .then((res) => {
+        dispatch(deletePost(postId));
         alert("게시글이 삭제되었습니다.");
         history.replace("/");
       })
@@ -119,7 +120,10 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = action.payload.post_list;
+        let dummyIndex = draft.list.findIndex(
+          (item) => item["postId"] === action.payload.post_id
+        );
+        draft.list.splice(dummyIndex, 1);
       }),
   },
   initialState

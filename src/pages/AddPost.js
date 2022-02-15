@@ -37,7 +37,7 @@ const AddPage = () => {
   };
   const onClickImage = () => {
     let formData = new FormData();
-    formData.append("file", image);
+    formData.append("images", image);
     apis
       .imageUpload(formData)
       .then((res) => console.log(res))
