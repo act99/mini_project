@@ -6,31 +6,76 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import Image from "../elements/Image";
+import moment from "moment";
+import { useSelector } from "react-redux";
+// import { actionCreators as userActions } from "../redux/modules/loginReducer";
+import { useDispatch } from "react-redux";
+import { actionCreators as loginActions } from "../redux/modules/loginReducer";
+export default function Detail() {
+  const location = useLocation();
+  const item = location.state.item;
+  const user = useSelector((state) => state.loginReducer.userinfo.email);
+  console.log(user);
+  // const timeRemaining =
+  const leftDays = moment(item.endAt).diff(item.startAt, "days");
+  console.log(item);
 
-export default function BasicCard() {
   return (
     <>
       <Container>
         <br />
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="h3" component="div" sx={{ fontweight: "bold" }}>
-            마음을 다독이는 힐링 테라피
+            {item.title}
           </Typography>
           <br />
           <Typography variant="h6" component="span">
-            HWIYAYA 휘야야
+            {item.username}
           </Typography>
           <br />
 
-          <Typography sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography sx={{ m: 10 }}>
-              <img src="https://tumblbug-pci.imgix.net/1707fb6cb8ce42a8cc0e976994c65e4c14b54019/d7a43f48957f84a5a8c7c6a1cee7c3587c7b607b/dde94b6cb146081ca58d3aab56cf1adbb9847b57/f68dc68d-d379-462a-bd4f-76a171497778.jpeg?ixlib=rb-1.1.0&w=620&h=465&auto=format%2Ccompress&lossless=true&fit=crop&s=ee5f92bbb7c150207032120aed20fa4f" />
-            </Typography>
-            <Typography
-              component="div"
-              sx={{ display: "flex", flexDirection: "column", mt: 10 }}
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Box sx={{ m: "auto" }}>
+              <Image
+                src={item.imageUrl}
+                // style={{ maxWidth: 500, maxHeight: 375 }}
+              />
+              <Card sx={{ minWidth: 500, mt: 2, border: "solid 1px #c3c3c3" }}>
+                <CardContent>
+                  <Typography variant="h5" component="div" sx={{ mb: 3 }}>
+                    프로젝트 소개
+                  </Typography>
+                  <Typography
+                    sx={{ fontSize: 14 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    {item.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                mt: 10,
+                textAlign: "start",
+              }}
             >
-              <Card sx={{ minWidth: 275, width: 360 }}>
+              <Typography variant="h5" component="div" sx={{ mb: 3 }}>
+                🔥 펀드 진행중 🔥
+              </Typography>
+              <Card
+                sx={{
+                  minWidth: 275,
+                  width: 360,
+                  // border: "solid 1px #c3c3c3",
+                  textAlign: "start",
+                }}
+              >
                 <CardContent>
                   <Typography
                     sx={{ fontSize: 14 }}
@@ -39,8 +84,12 @@ export default function BasicCard() {
                   >
                     모인금액
                   </Typography>
+                  {/* 바이어 리스트가 생기면 고쳐야하는 것 */}
                   <Typography variant="h4" component="div">
-                    535,000원
+                    {item.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    원
                     <Typography variant="h6" component="span">
                       107%
                     </Typography>
@@ -54,7 +103,7 @@ export default function BasicCard() {
                     남은시간
                   </Typography>
                   <Typography variant="h4" component="div">
-                    23
+                    {leftDays}
                     <Typography variant="h6" component="span">
                       일
                     </Typography>
@@ -88,19 +137,43 @@ export default function BasicCard() {
                   <Typography variant="body2">
                     목표 금액인 100,000,000원이 모여야만 결제됩니다
                     <br />
-                    결제는 2022년 2월 25일에 다함께 진행됩니다
+                    결제는 {item.endAt.split("-")[0]}년{" "}
+                    {item.endAt.split("-")[1]}월 {item.endAt.split("-")[2]}일에
+                    다함께 진행됩니다
                   </Typography>
                 </CardContent>
               </Card>
-              <Button
-                variant="contained"
-                size="small"
-                sx={{ mt: 5, py: 3, fontSize: 20 }}
-              >
-                이 프로젝트 후원하기
-              </Button>
-            </Typography>
-          </Typography>
+              {item.username === user ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="error"
+                  sx={{
+                    mt: 5,
+                    py: 3,
+                    fontSize: 20,
+                    backgroundColor: "#f86453",
+                  }}
+                >
+                  프로젝트 수정하기
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="error"
+                  sx={{
+                    mt: 5,
+                    py: 3,
+                    fontSize: 20,
+                    backgroundColor: "#f86453",
+                  }}
+                >
+                  이 프로젝트 후원하기
+                </Button>
+              )}
+            </Box>
+          </Box>
         </Box>
       </Container>
     </>
