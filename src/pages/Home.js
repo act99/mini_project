@@ -70,7 +70,7 @@ export default function Home() {
                 {post.map((item, index) => (
                   <Grid
                     item
-                    key={index}
+                    key={item.postId + item.title}
                     xs={12}
                     sm={6}
                     md={3}
@@ -157,7 +157,7 @@ export default function Home() {
                 {post.map((item, index) => (
                   <Grid
                     item
-                    key={index}
+                    key={item.postId + item.title}
                     xs={12}
                     sm={6}
                     md={3}
@@ -264,7 +264,7 @@ export default function Home() {
                   {post.map((item, index) => (
                     <Grid
                       item
-                      key={item.postId}
+                      key={item.postId + item.title}
                       xs={12}
                       sm={6}
                       md={3}

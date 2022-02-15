@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Image from "../elements/Image";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -21,6 +21,7 @@ export default function Detail() {
   // const timeRemaining =
   const leftDays = moment(item.endAt).diff(item.startAt, "days");
   console.log(item);
+  const history = useHistory();
 
   return (
     <>
@@ -32,7 +33,7 @@ export default function Detail() {
           </Typography>
           <br />
           <Typography variant="h6" component="span">
-            {item.username}
+            {item.nickname}
           </Typography>
           <br />
 
@@ -154,8 +155,14 @@ export default function Detail() {
                     fontSize: 20,
                     backgroundColor: "#f86453",
                   }}
+                  onClick={() => {
+                    history.push({
+                      pathname: `/editpost/${item.postId}`,
+                      state: { item: item },
+                    });
+                  }}
                 >
-                  프로젝트 수정하기
+                  프로젝트 수정 / 삭제하기 ✍
                 </Button>
               ) : (
                 <Button

@@ -6,14 +6,16 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import { makeStyles, TextareaAutosize } from "@mui/material";
+import { Input, makeStyles, TextareaAutosize } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import Image from "../elements/Image";
 import moment from "moment";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
+import { apis } from "../shared/api";
 const AddPage = () => {
+  const [image, setImage] = React.useState();
   const dispatch = useDispatch();
   // 이미지 업로드
   const timeElapsed = Date.now();
@@ -28,6 +30,18 @@ const AddPage = () => {
   // 날짜 핸들링
   const handleDate = (event) => {
     setDate(event);
+  };
+  const handleImage = (event) => {
+    setImage(event.target.files[0]);
+    console.log(event.target.files[0]);
+  };
+  const onClickImage = () => {
+    let formData = new FormData();
+    formData.append("file", image);
+    apis
+      .imageUpload(formData)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
   };
 
   const handleSubmit = (event) => {
@@ -94,11 +108,12 @@ const AddPage = () => {
     <Grid
       container
       component="main"
-      sx={{ height: "92.7vh" }}
+      sx={{ height: "100%" }}
       justifyContent="center"
     >
       <CssBaseline />
       {/* 폼 형식으로 진행할 예정 */}
+
       <Box
         component="form"
         sx={{ width: "100%", maxWidth: 500 }}
@@ -106,11 +121,20 @@ const AddPage = () => {
       >
         <Typography
           component="h1"
+          variant="h4"
+          sx={{ fontWeight: "bold", ml: 1, my: 6 }}
+        >
+          🌊 게시글 작성하기 🌊
+        </Typography>
+        <Typography
+          component="h1"
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
           프로젝트 이름을 적어주세요.
         </Typography>
+        <Input type="file" onChange={handleImage} />
+        <Button onClick={onClickImage}>버튼</Button>
         <TextField
           required
           id="outlined-required"
