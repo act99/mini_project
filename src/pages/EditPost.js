@@ -39,7 +39,7 @@ const EditPost = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const item = location.state.item;
-  console.log(item);
+  console.log(location.state);
   // 이미지 업로드
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -59,6 +59,7 @@ const EditPost = () => {
   };
 
   const handleSubmit = (event) => {
+    console.log("hi");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(date.toISOString().substring(0, 10).slice(8, 10) * 1);
@@ -96,8 +97,11 @@ const EditPost = () => {
     ) {
       alert("최소 후원자 수를 입력해주세요.");
     } else {
-      console.log("Okay!");
       console.log(contents);
+      dispatch(postActions.editPostDB(location.state.item.postId, contents));
+      // console.log(location.state.item.postId);
+      // console.log("Okay!");
+      // console.log(contents);
       // dispatch(postActions.addPostDB(contents));
     }
   };
