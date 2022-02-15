@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
+    console.log("hi");
     if (document.cookie) dispatch(loginActions.loginCheckDB());
   }, []);
 

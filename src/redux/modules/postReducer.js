@@ -43,6 +43,22 @@ const getPostDB = () => {
       .catch((error) => console.log(error));
   };
 };
+
+const editPostDB = (postId, contents) => {
+  return function (dispatch, getState, { history }) {
+    apis
+      .edit(postId, contents)
+      .then((res) => {
+        dispatch(editPost(contents));
+        console.log(res);
+        history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("게시글 수정에 실패했습니다.");
+      });
+  };
+};
 // const editPostDB = (postID, contents) => {
 //   apis.edit(postID, contents).then((res) => {
 //     console.log(res);
@@ -137,6 +153,7 @@ const actionCreators = {
   addPostDB,
   getPostDB,
   deletePostDB,
+  editPostDB,
 };
 
 export { actionCreators };
