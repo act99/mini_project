@@ -27,7 +27,6 @@ const EditPost = () => {
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -54,6 +53,9 @@ const EditPost = () => {
   // 날짜 핸들링
   const handleDate = (event) => {
     setDate(event);
+  };
+  const handleDelete = () => {
+    dispatch(postActions.deletePostDB(item.postId));
   };
 
   const handleSubmit = (event) => {
@@ -138,9 +140,44 @@ const EditPost = () => {
         >
           ✍ 게시글 수정하기 ✍
         </Typography>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          ⛔게시물 삭제하기⛔
-        </Button>
+        <Box sx={{ border: "solid 1px red" }}>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              // ml: 1,
+              my: 1,
+
+              display: "block",
+              mx: "auto",
+            }}
+          >
+            ⛔경고 게시물 삭제⛔
+          </Typography>
+          <Typography variant="subtitle2" sx={{}}>
+            한 번 삭제된 게시물은 더 이상 확인하실 수 없습니다.
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={handleClickOpen}
+            color="error"
+            sx={{
+              color: "white",
+              border: "solid 1px red",
+              borderRadius: "10px",
+              backgroundColor: "#ff444b",
+              width: "80%",
+              // minWidth: "300px",
+              padding: "10px",
+              my: 2,
+              display: "block",
+              mx: "auto",
+            }}
+          >
+            ⛔게시물 삭제하기⛔
+          </Button>
+        </Box>
         <Dialog
           fullScreen={fullScreen}
           open={open}
@@ -160,7 +197,7 @@ const EditPost = () => {
             <Button autoFocus onClick={handleClose}>
               취소
             </Button>
-            <Button onClick={handleClose} autoFocus sx={{ color: "red" }}>
+            <Button onClick={handleDelete} autoFocus sx={{ color: "red" }}>
               삭제
             </Button>
           </DialogActions>
