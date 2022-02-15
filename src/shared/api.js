@@ -3,6 +3,7 @@ import axios from "axios";
 const tokenCheck = document.cookie;
 const token = tokenCheck.split("=")[1];
 const api = axios.create({
+  // baseURL: "http://3.36.71.110",
   baseURL: "http://3.36.65.28:8080",
 
   headers: {
@@ -34,7 +35,8 @@ export const apis = {
   add: (contents) => api.post("/api/posts", contents),
   get: () => api.get("/api/posts"),
   edit: (postID, contents) => api.put(`/api/posts/${postID}`, contents),
-  delete: (postID) => api.delete(`api/posts/${postID}`),
+  delete: (postID) => api.delete(`/api/posts/${postID}`),
+  imageUpload: (image) => api.post(`/api/image`, image),
   // article
   // add: (contents) => api.post("/api/articles", contents),
   // edit: (id, contents) => api.put(`api/articles/${id}`, contents),
