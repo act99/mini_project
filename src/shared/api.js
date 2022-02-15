@@ -34,7 +34,7 @@ export const apis = {
   add: (contents) => api.post("/api/posts", contents),
   get: () => api.get("/api/posts"),
   edit: (postID, contents) => api.put(`/api/posts/${postID}`, contents),
-  delete: (postID) => api.delete(`api/posts/${postID}`),
+  delete: (postID) => api.delete(`/api/posts/${postID}`),
   // article
   // add: (contents) => api.post("/api/articles", contents),
   // edit: (id, contents) => api.put(`api/articles/${id}`, contents),

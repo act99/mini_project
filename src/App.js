@@ -17,6 +17,8 @@ import Popular from "./pages/Popular";
 import New from "./pages/New";
 import { actionCreators as loginActions } from "./redux/modules/loginReducer";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -34,6 +36,7 @@ function App() {
           <Route path="/signup" exact component={Signup} />
           <Route path="/popular" exact component={Popular} />
           <Route path="/addpost" exact component={AddPost} />
+          {/* <Route path="/addpost" exact component={AddPost} /> */}
           <Route path="/detail/:id" exact component={Detail} />
           <Route path="/new" exact component={New} />
         </Container>

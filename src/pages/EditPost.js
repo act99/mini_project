@@ -13,6 +13,7 @@ import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import Image from "../elements/Image";
 import moment from "moment";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
+
 const AddPage = () => {
   const dispatch = useDispatch();
   // 이미지 업로드

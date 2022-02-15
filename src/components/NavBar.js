@@ -56,12 +56,6 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  React.useEffect(() => {
-    if (getCookie("token")) {
-      setIsLogin(true);
-    }
-    console.log(isLogin);
-  }, []);
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#ffffff", mb: 5 }}>
@@ -154,14 +148,14 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {isLogin === true ? (
+            {document.cookie ? (
               <Link to="/addpost">프로젝트 올리기</Link>
             ) : null}
 
             {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기
             </Link> */}
-            {isLogin === true ? (
+            {document.cookie ? (
               <Button variant="outlined" onClick={logoutHandler}>
                 로그아웃
               </Button>
