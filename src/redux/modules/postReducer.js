@@ -49,6 +49,21 @@ const getPostDB = () => {
 //   });
 // };
 
+const deletePostDB = (postId) => {
+  return function (dispatch, getState, { history }) {
+    apis
+      .delete(postId)
+      .then((res) => {
+        alert("게시글이 삭제되었습니다.");
+        history.replace("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("게시글이 삭제되지 않았습니다.");
+      });
+  };
+};
+
 const addPostDB = (contents) => {
   console.log(contents);
   let postContent = {
@@ -117,6 +132,7 @@ const actionCreators = {
   deletePost,
   addPostDB,
   getPostDB,
+  deletePostDB,
 };
 
 export { actionCreators };

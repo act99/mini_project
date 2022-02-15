@@ -13,9 +13,34 @@ import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import Image from "../elements/Image";
 import moment from "moment";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
+import { useLocation } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
-const AddPage = () => {
+const EditPost = () => {
+  //** 삭제를 위한 컨트롤러 */
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //** 삭제를 위한 컨트롤러 */
+
   const dispatch = useDispatch();
+  const location = useLocation();
+  const item = location.state.item;
+  console.log(item);
   // 이미지 업로드
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -24,7 +49,7 @@ const AddPage = () => {
     .toISOString()
     .slice(0, today.toISOString().length - 5);
   // setState = > 현재날짜
-  const [date, setDate] = React.useState(new Date(todayDate));
+  const [date, setDate] = React.useState(new Date(item.endAt));
 
   // 날짜 핸들링
   const handleDate = (event) => {
@@ -70,7 +95,8 @@ const AddPage = () => {
       alert("최소 후원자 수를 입력해주세요.");
     } else {
       console.log("Okay!");
-      dispatch(postActions.addPostDB(contents));
+      console.log(contents);
+      // dispatch(postActions.addPostDB(contents));
     }
   };
 
@@ -95,7 +121,7 @@ const AddPage = () => {
     <Grid
       container
       component="main"
-      sx={{ height: "92.7vh" }}
+      sx={{ height: "100%" }}
       justifyContent="center"
     >
       <CssBaseline />
@@ -107,12 +133,47 @@ const AddPage = () => {
       >
         <Typography
           component="h1"
+          variant="h4"
+          sx={{ fontWeight: "bold", ml: 1, my: 6 }}
+        >
+          ✍ 게시글 수정하기 ✍
+        </Typography>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          ⛔게시물 삭제하기⛔
+        </Button>
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle id="responsive-dialog-title" sx={{ color: "red" }}>
+            ⛔게시물 삭제⛔
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              삭제한 게시물은 더 이상 보실 수 없습니다.
+            </DialogContentText>
+            <DialogContentText>정말 삭제하시겠습니까?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleClose}>
+              취소
+            </Button>
+            <Button onClick={handleClose} autoFocus sx={{ color: "red" }}>
+              삭제
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Typography
+          component="h1"
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
           프로젝트 이름을 적어주세요.
         </Typography>
         <TextField
+          defaultValue={item.title}
           required
           id="outlined-required"
           name="title"
@@ -147,7 +208,7 @@ const AddPage = () => {
           이미지를 선택해주세요.
         </Typography>
         <Box sx={{ width: "100%", maxWidth: 500, minHeight: 375 }}>
-          <Image />
+          <Image src={item.imageUrl} />
         </Box>
 
         <Button
@@ -173,6 +234,7 @@ const AddPage = () => {
           물건 개당 가격을 입력해주세요.
         </Typography>
         <TextField
+          defaultValue={item.price}
           type="number"
           required
           id="outlined-required"
@@ -192,6 +254,7 @@ const AddPage = () => {
           최소 후원자 수를 입력해주세요.
         </Typography>
         <TextField
+          defaultValue={item.minimum}
           type="number"
           required
           id="outlined-required"
@@ -214,6 +277,7 @@ const AddPage = () => {
           나중에 수정 가능하니 편하게 적어주세요.
         </Typography>
         <TextareaAutosize
+          defaultValue={item.content}
           aria-label="minimum height"
           minRows={3}
           name="desc"
@@ -253,4 +317,4 @@ const AddPage = () => {
   );
 };
 
-export default AddPage;
+export default EditPost;
