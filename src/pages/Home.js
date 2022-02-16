@@ -1,7 +1,5 @@
 import React from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -14,6 +12,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
+import Example from "../components/Carousel";
+import { useHistory } from "react-router-dom";
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,13 +25,13 @@ const theme = createTheme();
 const cards = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export default function Home() {
-  const post = useSelector((state) => state.post);
+  const post = useSelector((state) => state.postReducer.list);
   const dispatch = useDispatch();
-  console.log(post);
+  const history = useHistory();
   React.useEffect(() => {
     dispatch(postActions.getPostDB());
   }, []);
-
+  console.log(post);
   return (
     <ThemeProvider theme={theme}>
       <Box></Box>
@@ -39,12 +39,14 @@ export default function Home() {
       <Container sx={{ py: 8, flexGrow: 0 }} maxWidth="lg">
         <Grid container spacing={6}>
           <Grid item xs={6} md={8}>
-            <Item
+            {/* <Example /> */}
+            {/* <Item
               sx={{ maXwidth: "770px", minWidth: "200px", height: "260px" }}
             >
               슬라이드
-            </Item>
+            </Item> */}
             {/* ...............................................start신규공동구매........................................ */}
+            <Example />
             <Item
               sx={{
                 maXwidth: "770px",
@@ -65,10 +67,10 @@ export default function Home() {
                 신규 공동구매
               </Box>
               <Grid container spacing={2}>
-                {cards.map((card) => (
+                {post.map((item, index) => (
                   <Grid
                     item
-                    key={card}
+                    key={item.postId + item.title}
                     xs={12}
                     sm={6}
                     md={3}
@@ -87,13 +89,16 @@ export default function Home() {
                         marginBottom: "25px",
                       }}
                       onClick={() => {
-                        console.log("신규 카드클릭!");
+                        history.push({
+                          pathname: `/detail/${item.postId}`,
+                          state: { item: item },
+                        });
                       }}
                     >
                       <CardMedia
                         sx={{ maxHeight: "150px", minHeight: "150px" }}
                         component="img"
-                        image="https://source.unsplash.com/random"
+                        image={item.imageUrl}
                         alt="random"
                       />
                       <CardContent
@@ -105,7 +110,8 @@ export default function Home() {
                         }}
                       >
                         <Typography sx={{ fontWeight: "light", fontSize: 11 }}>
-                          음악 | (주)뮤직파라디소
+                          {item.nickname}
+                          {/* {item.username.split("@")[0]} */}
                         </Typography>
                         <Typography
                           gutterBottom
@@ -117,7 +123,93 @@ export default function Home() {
                             paddingTop: 1,
                           }}
                         >
-                          이누야샤 OST 앨범 재발매 프로젝트
+                          {item.title}
+                          <FundingStatus>
+                            <span>25% 달성</span>
+                          </FundingStatus>
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Item>
+            <Item
+              sx={{
+                maXwidth: "770px",
+                minWidth: "200px",
+                height: "700px",
+                marginTop: "50px",
+              }}
+            >
+              <Box
+                sx={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  lineHeight: "29px",
+                  letterSpacing: "-0.025em",
+                  marginBottom: "20px",
+                }}
+              >
+                인기 공동구매
+              </Box>
+              <Grid container spacing={2}>
+                {post.map((item, index) => (
+                  <Grid
+                    item
+                    key={item.postId + item.title}
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    sx={{
+                      minWidth: "180px",
+
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Card
+                      sx={{
+                        height: "px",
+                        display: "flex",
+                        flexDirection: "column",
+                        cursor: "pointer",
+                        marginBottom: "25px",
+                      }}
+                      onClick={() => {
+                        history.push({
+                          pathname: `/detail/${item.postId}`,
+                          state: { item: item },
+                        });
+                      }}
+                    >
+                      <CardMedia
+                        sx={{ maxHeight: "150px", minHeight: "150px" }}
+                        component="img"
+                        image={item.imageUrl}
+                        alt="random"
+                      />
+                      <CardContent
+                        sx={{
+                          flexGrow: 1,
+                          minHeight: "130px",
+                          maxHeight: "100px",
+                          paddingLeft: 0.5,
+                        }}
+                      >
+                        <Typography sx={{ fontWeight: "light", fontSize: 11 }}>
+                          {item.nickname}
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          sx={{
+                            fontWeight: "bold",
+                            fontSize: 14.5,
+                            paddingTop: 1,
+                          }}
+                        >
+                          {item.title}
                           <FundingStatus>
                             <span>25% 달성</span>
                           </FundingStatus>
@@ -161,7 +253,7 @@ export default function Home() {
                       cursor: "pointer",
                     }}
                     onClick={() => {
-                      console.log("전체보기");
+                      history.push("/popular");
                     }}
                   >
                     전체보기
@@ -169,10 +261,10 @@ export default function Home() {
                 </Box>
 
                 <Grid container spacing={2}>
-                  {cards.map((card) => (
+                  {post.map((item, index) => (
                     <Grid
                       item
-                      key={card}
+                      key={item.postId + item.title}
                       xs={12}
                       sm={6}
                       md={3}
@@ -191,13 +283,16 @@ export default function Home() {
                           marginBottom: "-1px",
                         }}
                         onClick={() => {
-                          console.log("인기카드클릭!");
+                          history.push({
+                            pathname: `/detail/${item.postId}`,
+                            state: { item: item },
+                          });
                         }}
                       >
                         <CardMedia
                           sx={{ maxWidth: "100px", maxHeight: "100px" }}
                           component="img"
-                          image="https://source.unsplash.com/random"
+                          image={item.imageUrl}
                           alt="random"
                         />
                         <CardContent
@@ -210,12 +305,11 @@ export default function Home() {
                             color: "red",
                           }}
                         >
-                          {card}
+                          {index + 1}
                         </CardContent>
                         <CardContent
                           sx={{
                             flexGrow: 1,
-
                             maxHeight: "100px",
                             paddingLeft: 0.5,
                             paddingTop: "2px",
@@ -224,7 +318,7 @@ export default function Home() {
                           <Typography
                             sx={{ fontWeight: "light", fontSize: 11 }}
                           >
-                            음악 | (주)뮤직파라디소
+                            {item.nickname}
                           </Typography>
                           <Typography
                             gutterBottom
@@ -235,7 +329,7 @@ export default function Home() {
                               fontSize: 14,
                             }}
                           >
-                            이누야샤 OST 앨범 재발매 프로젝트
+                            {item.title}
                             <FundingStatus>
                               <span>25% 달성</span>
                             </FundingStatus>

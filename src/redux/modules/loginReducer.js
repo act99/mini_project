@@ -93,7 +93,7 @@ const logOutDB = () => {
   return function (dispatch, getState, { history }) {
     deleteCookie("token");
     // localStorage.removeItem("authorization");
-    dispatch(logOut());
+    dispatch(logOut({ userinfo: { email: "", nickname: "" }, token: null }));
     history.replace("/");
   };
 };
@@ -106,7 +106,10 @@ const SignUpDB = (id, nickname, pwd, passwordcheck) => {
         console.log(res, "회원가입 성공");
         history.push("/signin");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        alert("중복된 아이디가 있습니다.");
+        console.log(error.message);
+      });
   };
 };
 
@@ -160,6 +163,7 @@ const actionCreators = {
   SignUpDB,
   loginCheckDB,
   userInfoDB,
+  logOutDB,
 };
 
 export { actionCreators };
