@@ -21,15 +21,12 @@ const NavBar = () => {
   const isLogin = useSelector((state) => state.loginReducer.token);
   const history = useHistory();
   const handleOpenNavMenu = (event) => {
-    console.log(event);
     setAnchorElNav(event.currentTarget);
   };
   const user = useSelector((state) => state.loginReducer.userinfo);
   const dispatch = useDispatch();
-  console.log(user);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-    console.log(event);
   };
   React.useEffect(() => {}, [isLogin]);
 
@@ -42,7 +39,6 @@ const NavBar = () => {
     } else if (e.target.id === "신규") {
       history.push("/new");
     } else {
-      console.log(e.target.id);
     }
   };
   const logoutHandler = () => {
@@ -112,8 +108,6 @@ const NavBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} id={page} onClick={handleCloseNavMenu}>
-                  {" "}
-                  {/* 홈 인기 신규 */}
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -147,7 +141,16 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {isLogin ? <Link to="/addpost">프로젝트 올리기</Link> : null}
+            {isLogin ? (
+              <>
+                <Button
+                  variant="outlined"
+                  onClick={() => history.push("/addpost")}
+                >
+                  게시글 작성
+                </Button>
+              </>
+            ) : null}
 
             {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기

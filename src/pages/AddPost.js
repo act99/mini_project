@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Input, makeStyles, TextareaAutosize } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -14,8 +14,13 @@ import Image from "../elements/Image";
 import moment from "moment";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
 import { apis } from "../shared/api";
+import { actionCreators as imageActions } from "../redux/modules/imageReducer";
+import axios from "axios";
+
 const AddPage = () => {
   const [image, setImage] = React.useState();
+  const tokenCheck = document.cookie;
+  const token = tokenCheck.split("=")[1];
   const dispatch = useDispatch();
   // 이미지 업로드
   const timeElapsed = Date.now();
@@ -31,24 +36,56 @@ const AddPage = () => {
   const handleDate = (event) => {
     setDate(event);
   };
-  const handleImage = (event) => {
-    setImage(event.target.files[0]);
-    console.log(event.target.files[0]);
+
+  const [imageFile, setImageFile] = React.useState(null);
+
+  const preview = useSelector((state) => state.imageReducer.preview);
+  const [loadingImage, setLoadingImage] = React.useState(false);
+  const fileInput = React.useRef();
+
+  const filePreview = (e) => {
+    const reader = new FileReader();
+    const fileee = fileInput.current.files;
+    console.log(fileee);
+    const file = fileInput.current.files[0];
+    const previewFile = fileInput.current.files[0];
+    reader.readAsDataURL(previewFile);
+
+    reader.onloadend = () => {
+      // console.log(reader.result);
+      dispatch(imageActions.setPreview(reader.result));
+    };
+    if (file) {
+      console.log("hi");
+      setImageFile(file);
+    }
   };
-  const onClickImage = () => {
+  const addImage = () => {
     let formData = new FormData();
-    formData.append("images", image);
+    console.log(imageFile);
+    formData.append("file", imageFile);
     apis
       .imageUpload(formData)
-      .then((res) => console.log(res))
+      .then((res) => setLoadingImage(true))
       .catch((error) => console.log(error));
+    // console.log(formData.get("file"));
+    // const api = axios.create({
+    //   baseURL: "http://13.125.206.220:8080",
+    //   headers: {
+    //     "content-type": "application/json;charset=UTF-8",
+    //     accept: "application/json",
+    //     token: token,
+    //   },
+    // });
+    // api
+    //   .post(`/api/image`, formData)
+    //   .then((res) => console.log(res))
+    //   .catch((error) => console.log(error));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(date.toISOString().substring(0, 10).slice(8, 10) * 1);
-    console.log(data.get("title"), data.get("desc"));
     let contents = {
       title: data.get("title"),
       content: data.get("desc"),
@@ -82,28 +119,23 @@ const AddPage = () => {
     ) {
       alert("최소 후원자 수를 입력해주세요.");
     } else {
-      console.log("Okay!");
       dispatch(postActions.addPostDB(contents));
     }
   };
 
   // 이미지 업로드
-  const fileInput = React.useRef(null);
-  const [upload, setUpload] = React.useState(false);
-  const selectFile = (e) => {
-    console.log(e.target.files);
-    console.log(fileInput.current.files[0]);
-    const reader = new FileReader();
-    const file = fileInput.current.files[0];
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      console.log(reader.result);
-      // dispatch(imageActions.setPreview(reader.result));
-    };
-    setUpload(true);
-  };
+  // const fileInput = React.useRef(null);
+  // const [upload, setUpload] = React.useState(false);
+  // const selectFile = (e) => {
+  //   const reader = new FileReader();
+  //   const file = fileInput.current.files[0];
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     // dispatch(imageActions.setPreview(reader.result));
+  //   };
+  //   setUpload(true);
+  // };
 
-  console.log(date);
   return (
     <Grid
       container
@@ -133,8 +165,13 @@ const AddPage = () => {
         >
           프로젝트 이름을 적어주세요.
         </Typography>
-        <Input type="file" onChange={handleImage} />
-        <Button onClick={onClickImage}>버튼</Button>
+        <Input
+          type="file"
+          ref={fileInput}
+          onChange={filePreview}
+          accept="image/*"
+        />
+        <Button onClick={addImage}>버튼</Button>
         <TextField
           required
           id="outlined-required"
@@ -170,7 +207,9 @@ const AddPage = () => {
           이미지를 선택해주세요.
         </Typography>
         <Box sx={{ width: "100%", maxWidth: 500, minHeight: 375 }}>
-          <Image />
+          <Image
+            src={preview ? preview : "https://via.placeholder.com/400x300"}
+          />
         </Box>
 
         <Button
@@ -182,10 +221,11 @@ const AddPage = () => {
           Upload File
           <input
             type="file"
-            onChange={selectFile}
+            onChange={filePreview}
             ref={fileInput}
             // disabled={is_uploading}
             hidden
+            // accept="image/*"
           />
         </Button>
         <Typography

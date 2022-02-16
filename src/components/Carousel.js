@@ -13,7 +13,8 @@ function Item(props) {
   );
 }
 
-function Example(props) {
+function Slider(props) {
+  console.log(props);
   let items = [
     {
       name: "Random Name #1",
@@ -34,4 +35,4 @@ function Example(props) {
   );
 }
 
-export default Example;
+export default Slider;

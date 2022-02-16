@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,28 +8,28 @@ import { Container } from "@mui/material";
 import { useHistory, useLocation } from "react-router-dom";
 import Image from "../elements/Image";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../shared/api";
 // import { actionCreators as userActions } from "../redux/modules/loginReducer";
-import { useDispatch } from "react-redux";
-import { actionCreators as loginActions } from "../redux/modules/loginReducer";
 import Comment from "../components/Comment";
 export default function Detail() {
   const location = useLocation();
   const item = location.state.item;
   const user_info = useSelector((state) => state.loginReducer.userinfo);
   const user = user_info ? user_info.email : null;
-  console.log(user);
   // const timeRemaining =
   const leftDays = moment(item.endAt).diff(item.startAt, "days");
-  console.log(item);
   const history = useHistory();
   const onClickBuy = () => {
     apis
       .buyCount(item.postId)
-      .then((res) => console.log(res))
+      .then((res) => {
+        alert("후원이 완료되었습니다.");
+        history.replace("/");
+      })
       .catch((error) => console.log(error));
   };
+
   //comment
   return (
     <>
@@ -95,13 +94,28 @@ export default function Detail() {
                   </Typography>
                   {/* 바이어 리스트가 생기면 고쳐야하는 것 */}
                   <Typography variant="h4" component="div">
+                    {(item.price * item.buyercount)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    원
+                    <Typography variant="h6" component="span" sx={{ ml: 1 }}>
+                      {(item.buyercount / item.minimum) * 100}%
+                    </Typography>
+                  </Typography>
+                  <br />
+                  <Typography
+                    sx={{ fontSize: 14 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    단가
+                  </Typography>
+                  {/* 바이어 리스트가 생기면 고쳐야하는 것 */}
+                  <Typography variant="h4" component="div">
                     {item.price
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     원
-                    <Typography variant="h6" component="span">
-                      107%
-                    </Typography>
                   </Typography>
                   <br />
                   <Typography
@@ -113,7 +127,7 @@ export default function Detail() {
                   </Typography>
                   <Typography variant="h4" component="div">
                     {leftDays}
-                    <Typography variant="h6" component="span">
+                    <Typography variant="h6" component="span" sx={{ ml: 1 }}>
                       일
                     </Typography>
                   </Typography>
@@ -126,8 +140,8 @@ export default function Detail() {
                     후원자
                   </Typography>
                   <Typography variant="h4" component="div">
-                    14
-                    <Typography variant="h6" component="span">
+                    {item.buyercount}
+                    <Typography variant="h6" component="span" sx={{ ml: 1 }}>
                       명
                     </Typography>
                   </Typography>
@@ -144,7 +158,11 @@ export default function Detail() {
                     펀드진행중
                   </Typography>
                   <Typography variant="body2">
-                    목표 금액인 100,000,000원이 모여야만 결제됩니다
+                    목표 금액인{" "}
+                    {(item.price * item.minimum)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    원이 모여야만 결제됩니다
                     <br />
                     결제는 {item.endAt.split("-")[0]}년{" "}
                     {item.endAt.split("-")[1]}월 {item.endAt.split("-")[2]}일에
@@ -152,7 +170,7 @@ export default function Detail() {
                   </Typography>
                 </CardContent>
               </Card>
-              {item.username === user && !user ? (
+              {item.username === user && user !== null ? (
                 <Button
                   variant="contained"
                   size="small"
@@ -170,7 +188,7 @@ export default function Detail() {
                     });
                   }}
                 >
-                  프로젝트 수정 / 삭제하기 :글씨를_쓰는_손:
+                  프로젝트 수정 / 삭제하기 ✍
                 </Button>
               ) : (
                 <>

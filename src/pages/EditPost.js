@@ -39,7 +39,6 @@ const EditPost = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const item = location.state.item;
-  console.log(location.state);
   // 이미지 업로드
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -59,11 +58,8 @@ const EditPost = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log("hi");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(date.toISOString().substring(0, 10).slice(8, 10) * 1);
-    console.log(data.get("title"), data.get("desc"));
     let contents = {
       title: data.get("title"),
       content: data.get("desc"),
@@ -97,12 +93,7 @@ const EditPost = () => {
     ) {
       alert("최소 후원자 수를 입력해주세요.");
     } else {
-      console.log(contents);
       dispatch(postActions.editPostDB(location.state.item.postId, contents));
-      // console.log(location.state.item.postId);
-      // console.log("Okay!");
-      // console.log(contents);
-      // dispatch(postActions.addPostDB(contents));
     }
   };
 
@@ -110,19 +101,15 @@ const EditPost = () => {
   const fileInput = React.useRef(null);
   const [upload, setUpload] = React.useState(false);
   const selectFile = (e) => {
-    console.log(e.target.files);
-    console.log(fileInput.current.files[0]);
     const reader = new FileReader();
     const file = fileInput.current.files[0];
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      console.log(reader.result);
       // dispatch(imageActions.setPreview(reader.result));
     };
     setUpload(true);
   };
 
-  console.log(date);
   return (
     <Grid
       container

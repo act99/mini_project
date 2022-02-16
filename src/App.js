@@ -26,7 +26,6 @@ import { Link } from "@mui/material";
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    console.log("hi");
     if (document.cookie) dispatch(loginActions.loginCheckDB());
   }, []);
 
