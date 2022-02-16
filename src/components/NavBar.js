@@ -69,7 +69,7 @@ const NavBar = () => {
               sx={{
                 mr: 1,
                 color: "#000000",
-                display: { xs: "none", md: "flex" },
+                display: { xs: "flex", md: "flex" },
               }}
             >
               <div>GongGuRi</div> {/* 공구리 */}
@@ -127,7 +127,7 @@ const NavBar = () => {
           >
             <div>GongGuRi</div>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 id={page}
