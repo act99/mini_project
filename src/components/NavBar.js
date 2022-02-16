@@ -18,6 +18,7 @@ const pages = ["홈", "인기", "신규"];
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const isLogin = useSelector((state) => state.loginReducer.token);
   const history = useHistory();
   const handleOpenNavMenu = (event) => {
     console.log(event);
@@ -30,6 +31,7 @@ const NavBar = () => {
     setAnchorElUser(event.currentTarget);
     console.log(event);
   };
+  React.useEffect(() => {}, [isLogin]);
 
   const handleCloseNavMenu = (e) => {
     setAnchorElNav(null);
@@ -45,6 +47,7 @@ const NavBar = () => {
   };
   const logoutHandler = () => {
     dispatch(loginActions.logOutDB());
+    // setIsLogin(false);
     history.push("/");
   };
 
@@ -60,6 +63,7 @@ const NavBar = () => {
             <Typography
               fontFamily="-apple-system"
               variant="h6"
+              fontWeight="800"
               noWrap
               component="div"
               sx={{
@@ -143,14 +147,12 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {document.cookie ? (
-              <Link to="/addpost">프로젝트 올리기</Link>
-            ) : null}
+            {isLogin ? <Link to="/addpost">프로젝트 올리기</Link> : null}
 
             {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기
             </Link> */}
-            {document.cookie ? (
+            {isLogin ? (
               <Button variant="outlined" onClick={logoutHandler}>
                 로그아웃
               </Button>

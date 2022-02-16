@@ -10,6 +10,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import Image from "../elements/Image";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import { apis } from "../shared/api";
 // import { actionCreators as userActions } from "../redux/modules/loginReducer";
 import { useDispatch } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/loginReducer";
@@ -22,6 +23,12 @@ export default function Detail() {
   const leftDays = moment(item.endAt).diff(item.startAt, "days");
   console.log(item);
   const history = useHistory();
+  const onClickBuy = () => {
+    apis
+      .buyCount(item.postId)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
@@ -168,6 +175,7 @@ export default function Detail() {
                 <Button
                   variant="contained"
                   size="small"
+                  onClick={onClickBuy}
                   color="error"
                   sx={{
                     mt: 5,
