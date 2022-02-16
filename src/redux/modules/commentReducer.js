@@ -10,17 +10,14 @@ const EDIT_COMMENT = "EDIT_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
 
 //Action creators
-const setComment = createAction(SET_COMMENT, (post_id, comment_list) => ({
-  post_id,
-  comment_list,
+const setComment = createAction(SET_COMMENT, (list) => ({
+  list,
 }));
-const addComment = createAction(ADD_COMMENT, (post_id, comment) => ({
-  post_id,
+const addComment = createAction(ADD_COMMENT, (comment) => ({
   comment,
 }));
-const deleteComment = createAction(DELETE_COMMENT, (post_id, comment) => ({
-  post_id,
-  comment,
+const deleteComment = createAction(DELETE_COMMENT, (commentId) => ({
+  commentId,
 }));
 const editComment = createAction(EDIT_COMMENT, (post_id, comment) => ({
   post_id,
@@ -32,45 +29,66 @@ const initialState = {
 };
 
 const initalComment = {
-  userinfo: { email: "", nickname: "test" },
+  userinfo: { email: "", nickname: "" },
   comment: "댓글 내용",
+  postId: 0,
 };
 
-const getCommentDB = () => {
+//middlewares
+const getCommentDB = (postId) => {
   return function (dispatch, getState, { history }) {
-    apis.getcomment().then((res) => {
+    apis
+      .getComments(postId)
+      .then((res) => {
+        dispatch(setComment(res.data));
+        // console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+  };
+};
+const deleteCommentDB = (commentId) => {
+  return function (dispatch, getState, { history }) {
+    apis.delComment(commentId).then((res) => {
       console.log(res);
+      dispatch(deleteComment(commentId));
     });
   };
 };
 
-const addCommentDB = (contents) => {
-  let comment = {
+const addCommentDB = (userinfo, contents, postId) => {
+  const comment = {
     ...initalComment,
-    post_id: contents.post_id,
-    username: contents.userinfo.username,
-    nicknane: contents.userinfo.nickname,
-    comment: contents.comment,
+    comment: contents,
+    postId: postId,
+    userinfo: { ...userinfo },
   };
   return function (dispatch, getState, { history }) {
-    apis.add(comment).then((res) => {
-      dispatch(addComment(comment));
-    });
+    apis
+      .addComment(postId, contents)
+      .then((res) => {
+        dispatch(addComment(comment));
+      })
+      .catch((error) => console.log(error));
   };
 };
 
+//reducer
 export default handleActions(
   {
     [SET_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        draft.list[action.payload.post_id] = action.payload.comment_list;
+        draft.list = [...action.payload.list];
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        draft.list[action.payload.post_id].unshift(action.payload.comment);
+        draft.list.unshift(action.payload.comment);
       }),
     [EDIT_COMMENT]: (state, action) => produce(state, (draft) => {}),
-    [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {}),
+    [DELETE_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
+        const index = draft.list.indexOf(action.payload.commentId);
+        draft.list.splice(index, 1);
+      }),
   },
   initialState
 );
@@ -82,6 +100,7 @@ const actionCreators = {
   deleteComment,
   getCommentDB,
   addCommentDB,
+  deleteCommentDB,
 };
 
 export { actionCreators };

@@ -38,19 +38,11 @@ export const apis = {
   delete: (postID) => api.delete(`/api/posts/${postID}`),
   imageUpload: (image) => api.post(`/api/image`, image),
   buyCount: (postId) => api.post(`/api/posts/${postId}/buycount`),
-  // article
-  // add: (contents) => api.post("/api/articles", contents),
-  // edit: (id, contents) => api.put(`api/articles/${id}`, contents),
-  // del: (id) => api.delete(`api/articles/${id}`),
-  // articles: () => api.get("/api/articles"),
-  // article: (id) => api.get(`/api/articles/${id}`),
-  // search: (value) => api.get(`/api/articles/search?query=${value}`),
-
-  // // comment
-  // addComment: (id, content) =>
-  //   api.post(`/api/articles/${id}/comments`, { content }),
-  // comments: (id) => api.get(`/api/articles/${id}/comments`),
-  // delComment: (id, coId) => api.delete(`/api/articles/${id}/comments/${coId}`),
+  // comment
+  addComment: (postId, comment) =>
+    api.post(`/api/${postId}/comments`, { comment: comment }),
+  getComments: (postId) => api.get(`/api/${postId}/comments`),
+  delComment: (commentId) => api.delete(`/api/comments/${commentId}`),
   // editComment: (id, coId, content) =>
   //   api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
