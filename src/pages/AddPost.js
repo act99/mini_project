@@ -2,20 +2,20 @@ import React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import { Input, makeStyles, TextareaAutosize } from "@mui/material";
+import { makeStyles, TextareaAutosize } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import Image from "../elements/Image";
 import moment from "moment";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
-import { apis } from "../shared/api";
 const AddPage = () => {
-  const [image, setImage] = React.useState();
   const dispatch = useDispatch();
   // 이미지 업로드
   const timeElapsed = Date.now();
@@ -31,18 +31,6 @@ const AddPage = () => {
   const handleDate = (event) => {
     setDate(event);
   };
-  const handleImage = (event) => {
-    setImage(event.target.files[0]);
-    console.log(event.target.files[0]);
-  };
-  const onClickImage = () => {
-    let formData = new FormData();
-    formData.append("images", image);
-    apis
-      .imageUpload(formData)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -53,8 +41,6 @@ const AddPage = () => {
       title: data.get("title"),
       content: data.get("desc"),
       endAt: date.toISOString().substring(0, 10),
-      minimum: data.get("minimum"),
-      price: data.get("price"),
     };
     if (data.get("title").length < 1) {
       alert("프로젝트 이름을 적어주세요");
@@ -69,22 +55,27 @@ const AddPage = () => {
         moment().format("YYYY-MM-DD").slice(8, 10) * 1
     ) {
       alert("현재 날짜보다 미래의 날짜를 정해주세요.");
-    } else if (
-      data.get("price") <= 0 ||
-      data.get("price") === null ||
-      data.get("price") === undefined
-    ) {
-      alert("금액을 입력해주세요.");
-    } else if (
-      data.get("minimum") <= 0 ||
-      data.get("minimum") === null ||
-      data.get("minimum") === undefined
-    ) {
-      alert("최소 후원자 수를 입력해주세요.");
     } else {
       console.log("Okay!");
       dispatch(postActions.addPostDB(contents));
     }
+    // eslint-disable-next-line no-console
+    // if (data.get("email") === "") {
+    //   alert("아이디가 공란입니다.");
+    // } else if (data.get("password") === "") {
+    //   alert("비밀번호가 공란입니다.");
+    // } else if (data.get("nickname") === "") {
+    //   alert("닉네임이 공란입니다.");
+    // } else if (data.get("password") !== data.get("checkPassword")) {
+    //   alert("비밀번호가 일치하지 않습니다.");
+    // } else {
+    //   console.log({
+    //     email: data.get("email"),
+    //     nickname: data.get("nickname"),
+    //     password: data.get("password"),
+    //     checkPassword: data.get("checkPassword"),
+    //   });
+    // }
   };
 
   // 이미지 업로드
@@ -108,12 +99,11 @@ const AddPage = () => {
     <Grid
       container
       component="main"
-      sx={{ height: "100%" }}
+      sx={{ height: "92.7vh" }}
       justifyContent="center"
     >
       <CssBaseline />
       {/* 폼 형식으로 진행할 예정 */}
-
       <Box
         component="form"
         sx={{ width: "100%", maxWidth: 500 }}
@@ -121,20 +111,11 @@ const AddPage = () => {
       >
         <Typography
           component="h1"
-          variant="h4"
-          sx={{ fontWeight: "bold", ml: 1, my: 6 }}
-        >
-          🌊 게시글 작성하기 🌊
-        </Typography>
-        <Typography
-          component="h1"
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
           프로젝트 이름을 적어주세요.
         </Typography>
-        <Input type="file" onChange={handleImage} />
-        <Button onClick={onClickImage}>버튼</Button>
         <TextField
           required
           id="outlined-required"
@@ -188,44 +169,6 @@ const AddPage = () => {
             hidden
           />
         </Button>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{ fontWeight: "bold", ml: 1, my: 3 }}
-        >
-          물건 개당 가격을 입력해주세요.
-        </Typography>
-        <TextField
-          type="number"
-          required
-          id="outlined-required"
-          name="price"
-          label="가격"
-          style={{
-            width: "50%",
-            // margin: "30px auto 0px auto",
-            minWidth: "470px",
-          }}
-        />
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{ fontWeight: "bold", ml: 1, my: 3 }}
-        >
-          최소 후원자 수를 입력해주세요.
-        </Typography>
-        <TextField
-          type="number"
-          required
-          id="outlined-required"
-          name="minimum"
-          label="후원자 수"
-          style={{
-            width: "50%",
-            // margin: "30px auto 0px auto",
-            minWidth: "470px",
-          }}
-        />
         <Typography
           component="h1"
           variant="h5"

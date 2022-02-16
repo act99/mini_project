@@ -7,9 +7,13 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link, useHistory } from "react-router-dom";
+import { getCookie } from "../shared/Cookie";
+import { set } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/loginReducer";
 
@@ -19,6 +23,7 @@ const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const history = useHistory();
+  const [isLogin, setIsLogin] = React.useState(false);
   const handleOpenNavMenu = (event) => {
     console.log(event);
     setAnchorElNav(event.currentTarget);
@@ -51,6 +56,12 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  React.useEffect(() => {
+    if (getCookie("token")) {
+      setIsLogin(true);
+    }
+    console.log(isLogin);
+  }, []);
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#ffffff", mb: 5 }}>
@@ -143,14 +154,14 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {document.cookie ? (
+            {isLogin === true ? (
               <Link to="/addpost">프로젝트 올리기</Link>
             ) : null}
 
             {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기
             </Link> */}
-            {document.cookie ? (
+            {isLogin === true ? (
               <Button variant="outlined" onClick={logoutHandler}>
                 로그아웃
               </Button>
