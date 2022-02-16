@@ -4,7 +4,6 @@ import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import postReducer from "./modules/postReducer";
 import loginReducer from "./modules/loginReducer";
-import logger from "redux-logger";
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
@@ -18,7 +17,7 @@ const middlewares = [thunk.withExtraArgument({ history: history })];
 const env = process.env.NODE_ENV;
 
 if (env === "development") {
-  // const { logger } = require("redux-logger");
+  const { logger } = require("redux-logger");
   middlewares.push(logger);
 }
 
