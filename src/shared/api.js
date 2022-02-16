@@ -3,9 +3,9 @@ import axios from "axios";
 const tokenCheck = document.cookie;
 const token = tokenCheck.split("=")[1];
 const api = axios.create({
-  baseURL: "http://3.36.71.110",
+  // baseURL: "http://3.36.71.110",
   // baseURL: "https://3.36.65.28:8080",
-
+  baseURL: "https://goonzu.shop",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
