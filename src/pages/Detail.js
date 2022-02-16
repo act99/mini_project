@@ -31,7 +31,7 @@ export default function Detail() {
       .then((res) => console.log(res))
       .catch((error) => console.log(error));
   };
-
+  //comment
   return (
     <>
       <Container>
@@ -45,14 +45,13 @@ export default function Detail() {
             {item.nickname}
           </Typography>
           <br />
-
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Box sx={{ m: "auto" }}>
               <Image
                 src={item.imageUrl}
                 // style={{ maxWidth: 500, maxHeight: 375 }}
               />
-              <Card sx={{ minWidth: 500, mt: 2, border: "solid 1px #c3c3c3" }}>
+              <Card sx={{ minWidth: 500, mt: 2, border: "solid 1px #C3C3C3" }}>
                 <CardContent>
                   <Typography variant="h5" component="div" sx={{ mb: 3 }}>
                     프로젝트 소개
@@ -82,7 +81,7 @@ export default function Detail() {
                 sx={{
                   minWidth: 275,
                   width: 360,
-                  // border: "solid 1px #c3c3c3",
+                  // border: "solid 1px #C3C3C3",
                   textAlign: "start",
                 }}
               >
@@ -135,7 +134,7 @@ export default function Detail() {
                 </CardContent>
               </Card>
               <Card
-                sx={{ minWidth: 275, width: 360, mt: 5, bgcolor: "#f1f1f5" }}
+                sx={{ minWidth: 275, width: 360, mt: 5, bgcolor: "#F1F1F5" }}
               >
                 <CardContent>
                   <Typography
@@ -162,7 +161,7 @@ export default function Detail() {
                     mt: 5,
                     py: 3,
                     fontSize: 20,
-                    backgroundColor: "#f86453",
+                    backgroundColor: "#F86453",
                   }}
                   onClick={() => {
                     history.push({
@@ -171,7 +170,7 @@ export default function Detail() {
                     });
                   }}
                 >
-                  프로젝트 수정 / 삭제하기 ✍
+                  프로젝트 수정 / 삭제하기 :글씨를_쓰는_손:
                 </Button>
               ) : (
                 <>
@@ -211,7 +210,7 @@ export default function Detail() {
             </Box>
           </Box>
         </Box>
-        <Comment />
+        <Comment postId={item.postId} />
       </Container>
     </>
   );

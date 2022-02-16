@@ -4,12 +4,14 @@ import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import postReducer from "./modules/postReducer";
 import loginReducer from "./modules/loginReducer";
+import commentReducer from "./modules/commentReducer";
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
   loginReducer: loginReducer,
   postReducer: postReducer,
+  commentReducer: commentReducer,
 });
 
 const middlewares = [thunk.withExtraArgument({ history: history })];
