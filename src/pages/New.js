@@ -42,6 +42,13 @@ export default function New() {
       <CssBaseline />
       <main>
         <Container sx={{ py: 8 }} maxWidth="lg">
+          <Typography
+            component="h1"
+            variant="h4"
+            sx={{ fontWeight: "bold", ml: 1, mb: 6, mt: 1 }}
+          >
+            👋 신규 프로젝트 👋
+          </Typography>
           <FormControl sx={{ m: 1, minWidth: 120, paddingBottom: 5 }}>
             <Select
               value={rate}
@@ -105,22 +112,6 @@ export default function New() {
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </Box>
-      {/* End footer */}
     </ThemeProvider>
   );
 }

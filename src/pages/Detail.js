@@ -7,6 +7,25 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Comment from "../components/Comment";
 import { useSelector } from "react-redux";
+import { apis } from "../shared/api";
+// import { actionCreators as userActions } from "../redux/modules/loginReducer";
+import { useDispatch } from "react-redux";
+import { actionCreators as loginActions } from "../redux/modules/loginReducer";
+export default function Detail() {
+  const location = useLocation();
+  const item = location.state.item;
+  const user = useSelector((state) => state.loginReducer.userinfo.email);
+  console.log(user);
+  // const timeRemaining =
+  const leftDays = moment(item.endAt).diff(item.startAt, "days");
+  console.log(item);
+  const history = useHistory();
+  const onClickBuy = () => {
+    apis
+      .buyCount(item.postId)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
 import { useDispatch } from "react-redux";
 
 export default function BasicCard(props) {
@@ -89,6 +108,62 @@ export default function BasicCard(props) {
                 color="text.secondary"
                 gutterBottom
               >
+                <CardContent>
+                  <Typography
+                    sx={{ mb: 1.5, fontweight: "20" }}
+                    color="text.first"
+                  >
+                    펀드진행중
+                  </Typography>
+                  <Typography variant="body2">
+                    목표 금액인 100,000,000원이 모여야만 결제됩니다
+                    <br />
+                    결제는 {item.endAt.split("-")[0]}년{" "}
+                    {item.endAt.split("-")[1]}월 {item.endAt.split("-")[2]}일에
+                    다함께 진행됩니다
+                  </Typography>
+                </CardContent>
+              </Card>
+              {item.username === user ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="error"
+                  sx={{
+                    mt: 5,
+                    py: 3,
+                    fontSize: 20,
+                    backgroundColor: "#f86453",
+                  }}
+                  onClick={() => {
+                    history.push({
+                      pathname: `/editpost/${item.postId}`,
+                      state: { item: item },
+                    });
+                  }}
+                >
+                  프로젝트 수정 / 삭제하기 ✍
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={onClickBuy}
+                  color="error"
+                  sx={{
+                    mt: 5,
+                    py: 3,
+                    fontSize: 20,
+                    backgroundColor: "#f86453",
+                  }}
+                >
+                  이 프로젝트 후원하기
+                </Button>
+              )}
+            </Box>
+          </Box>
+        </Box>
+      </Container>
                 후원자
               </Typography>
               <Typography variant="h4" component="div">
