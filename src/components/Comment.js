@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 const Comment = (props) => {
   return (
-    <Container maxWidth="lg">
+    <>
       <Grid container direction="row" sx={{ width: "100vw" }}>
         <Input
           type="text"
@@ -43,7 +43,7 @@ const Comment = (props) => {
           <Button>삭제</Button>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 };
 

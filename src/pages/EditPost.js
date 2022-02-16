@@ -6,17 +6,40 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
-import { Input, makeStyles, TextareaAutosize } from "@mui/material";
+import { makeStyles, TextareaAutosize } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import Image from "../elements/Image";
 import moment from "moment";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
-import { apis } from "../shared/api";
-const AddPage = () => {
-  const [image, setImage] = React.useState();
+import { useLocation } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
+const EditPost = () => {
+  //** 삭제를 위한 컨트롤러 */
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //** 삭제를 위한 컨트롤러 */
+
   const dispatch = useDispatch();
+  const location = useLocation();
+  const item = location.state.item;
+  console.log(location.state);
   // 이미지 업로드
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -25,26 +48,18 @@ const AddPage = () => {
     .toISOString()
     .slice(0, today.toISOString().length - 5);
   // setState = > 현재날짜
-  const [date, setDate] = React.useState(new Date(todayDate));
+  const [date, setDate] = React.useState(new Date(item.endAt));
 
   // 날짜 핸들링
   const handleDate = (event) => {
     setDate(event);
   };
-  const handleImage = (event) => {
-    setImage(event.target.files[0]);
-    console.log(event.target.files[0]);
-  };
-  const onClickImage = () => {
-    let formData = new FormData();
-    formData.append("images", image);
-    apis
-      .imageUpload(formData)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+  const handleDelete = () => {
+    dispatch(postActions.deletePostDB(item.postId));
   };
 
   const handleSubmit = (event) => {
+    console.log("hi");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(date.toISOString().substring(0, 10).slice(8, 10) * 1);
@@ -82,8 +97,12 @@ const AddPage = () => {
     ) {
       alert("최소 후원자 수를 입력해주세요.");
     } else {
-      console.log("Okay!");
-      dispatch(postActions.addPostDB(contents));
+      console.log(contents);
+      dispatch(postActions.editPostDB(location.state.item.postId, contents));
+      // console.log(location.state.item.postId);
+      // console.log("Okay!");
+      // console.log(contents);
+      // dispatch(postActions.addPostDB(contents));
     }
   };
 
@@ -113,7 +132,6 @@ const AddPage = () => {
     >
       <CssBaseline />
       {/* 폼 형식으로 진행할 예정 */}
-
       <Box
         component="form"
         sx={{ width: "100%", maxWidth: 500 }}
@@ -124,8 +142,70 @@ const AddPage = () => {
           variant="h4"
           sx={{ fontWeight: "bold", ml: 1, my: 6 }}
         >
-          🌊 게시글 작성하기 🌊
+          ✍ 게시글 수정하기 ✍
         </Typography>
+        <Box sx={{ border: "solid 1px red" }}>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              // ml: 1,
+              my: 1,
+
+              display: "block",
+              mx: "auto",
+            }}
+          >
+            ⛔경고 게시물 삭제⛔
+          </Typography>
+          <Typography variant="subtitle2" sx={{}}>
+            한 번 삭제된 게시물은 더 이상 확인하실 수 없습니다.
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={handleClickOpen}
+            color="error"
+            sx={{
+              color: "white",
+              border: "solid 1px red",
+              borderRadius: "10px",
+              backgroundColor: "#ff444b",
+              width: "80%",
+              // minWidth: "300px",
+              padding: "10px",
+              my: 2,
+              display: "block",
+              mx: "auto",
+            }}
+          >
+            ⛔게시물 삭제하기⛔
+          </Button>
+        </Box>
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle id="responsive-dialog-title" sx={{ color: "red" }}>
+            ⛔게시물 삭제⛔
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              삭제한 게시물은 더 이상 보실 수 없습니다.
+            </DialogContentText>
+            <DialogContentText>정말 삭제하시겠습니까?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleClose}>
+              취소
+            </Button>
+            <Button onClick={handleDelete} autoFocus sx={{ color: "red" }}>
+              삭제
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Typography
           component="h1"
           variant="h5"
@@ -133,9 +213,8 @@ const AddPage = () => {
         >
           프로젝트 이름을 적어주세요.
         </Typography>
-        <Input type="file" onChange={handleImage} />
-        <Button onClick={onClickImage}>버튼</Button>
         <TextField
+          defaultValue={item.title}
           required
           id="outlined-required"
           name="title"
@@ -170,7 +249,7 @@ const AddPage = () => {
           이미지를 선택해주세요.
         </Typography>
         <Box sx={{ width: "100%", maxWidth: 500, minHeight: 375 }}>
-          <Image />
+          <Image src={item.imageUrl} />
         </Box>
 
         <Button
@@ -196,6 +275,7 @@ const AddPage = () => {
           물건 개당 가격을 입력해주세요.
         </Typography>
         <TextField
+          defaultValue={item.price}
           type="number"
           required
           id="outlined-required"
@@ -215,6 +295,7 @@ const AddPage = () => {
           최소 후원자 수를 입력해주세요.
         </Typography>
         <TextField
+          defaultValue={item.minimum}
           type="number"
           required
           id="outlined-required"
@@ -237,6 +318,7 @@ const AddPage = () => {
           나중에 수정 가능하니 편하게 적어주세요.
         </Typography>
         <TextareaAutosize
+          defaultValue={item.content}
           aria-label="minimum height"
           minRows={3}
           name="desc"
@@ -276,4 +358,4 @@ const AddPage = () => {
   );
 };
 
-export default AddPage;
+export default EditPost;
