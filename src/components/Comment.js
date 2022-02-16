@@ -36,46 +36,68 @@ const Comment = (props) => {
   }, [loading]);
   return (
     <>
-      <Grid container direction="row" marginTop={10} sx={{ width: "1200px" }}>
-        <Input
-          type="text"
-          placeholder="최대 100자까지 댓글을 남길 수 있습니다!"
-          maxlength="100"
-          onChange={commentChange}
-        />
-        <StyleSendIcon onClick={commentOnClick} fontSize="14px"></StyleSendIcon>
-      </Grid>
-      {comment_list.map((item, index) => {
-        return (
-          <Grid
-            key={item.commentId + item.comment}
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            marginTop={10}
-            sx={{ width: "100", border: "2px solid #f14444 " }}
-          >
-            <Grid>
-              <Text>{item.nickname}</Text>
-            </Grid>
-            <Grid>
-              <Text>{item.comment}</Text>
-            </Grid>
-            <Grid>
-              {loading === true && userinfo.email === item.username ? (
-                <Button
-                  onClick={() => {
-                    dispatch(commentActions.deleteCommentDB(item.commentId));
-                  }}
-                >
-                  삭제
-                </Button>
-              ) : null}
-            </Grid>
-          </Grid>
-        );
-      })}
+      <Container marginTop={10} maxWidth="lg">
+        <Grid sx={{ padding: "0px" }}>
+          <Input
+            type="text"
+            placeholder="최대 100자까지 댓글을 남길 수 있습니다!"
+            maxlength="100"
+            onChange={commentChange}
+          />
+          <StyleSendIcon
+            onClick={commentOnClick}
+            fontSize="14px"
+          ></StyleSendIcon>
+        </Grid>
+
+        {comment_list.map((item, index) => {
+          return (
+            <>
+              <Grid
+                key={item.commentId + item.comment}
+                container
+                direction="row"
+                spacing={2}
+                marginTop={2}
+              >
+                <Grid item xs={6} md={8} sx={{ textAlign: "left" }}>
+                  <Grid sx={{ padding: "10px 10px 10px 50px" }}>
+                    {item.nickname}
+                  </Grid>
+                  <Grid sx={{ padding: "10px 10px 10px 50px" }}>
+                    {item.comment}
+                  </Grid>
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <Grid
+                    container
+                    sx={{
+                      display: "block",
+                      paddingTop: "16px",
+                      paddingRight: "30px",
+                    }}
+                  >
+                    {loading === true && userinfo.email === item.username ? (
+                      <Button
+                        onClick={() => {
+                          dispatch(
+                            commentActions.deleteCommentDB(item.commentId)
+                          );
+                        }}
+                        size="large"
+                        sx={{ fontSize: "20px", float: "right" }}
+                      >
+                        삭제
+                      </Button>
+                    ) : null}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Hr />
+            </>
+          );
+        })}
+      </Container>
     </>
   );
 };
@@ -84,8 +106,9 @@ const Input = styled.input`
   border: none;
   background: none;
   border-bottom: solid 1.5px #f14444;
-  padding: 12px 4px;
-  min-width: 1100px;
+  padding: 15px;
+  min-width: 85%;
+  margin-right: 20px;
 
   &:focus {
     outline: none;
@@ -96,9 +119,8 @@ const Input = styled.input`
 const StyleSendIcon = styled(SendIcon)`
   && {
     font-size: 2rem;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-left: 15px;
-    margin-right: 10px;
     color: #b3aaaa;
     &:hover {
       cursor: pointer;
@@ -108,8 +130,12 @@ const StyleSendIcon = styled(SendIcon)`
     }
   }
 `;
-const Text = styled.p`
-  font-size: 15px;
+const Hr = styled.hr`
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 6px -10px #bbb inset;
+  width: 95%;
+  margin: auto;
 `;
 
 export default Comment;
