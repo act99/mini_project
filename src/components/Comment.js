@@ -48,7 +48,7 @@ const Comment = (props) => {
       {comment_list.map((item, index) => {
         return (
           <Grid
-            key={item.commentId}
+            key={item.commentId + item.comment}
             container
             direction="row"
             justifyContent="space-between"

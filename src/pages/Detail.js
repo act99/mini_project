@@ -184,7 +184,7 @@ export default function Detail() {
                         mt: 5,
                         py: 3,
                         fontSize: 20,
-                        backgroundColor: "#F86453",
+                        backgroundColor: "#f86453",
                       }}
                     >
                       이 프로젝트 후원하기
@@ -199,7 +199,7 @@ export default function Detail() {
                         mt: 5,
                         py: 3,
                         fontSize: 20,
-                        backgroundColor: "#F86453",
+                        backgroundColor: "#f86453",
                       }}
                     >
                       로그인 후 사용해주십시오
