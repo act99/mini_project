@@ -18,7 +18,8 @@ import Comment from "../components/Comment";
 export default function Detail() {
   const location = useLocation();
   const item = location.state.item;
-  const user = useSelector((state) => state.loginReducer.userinfo.email);
+  const user_info = useSelector((state) => state.loginReducer.userinfo);
+  const user = user_info ? user_info.email : null;
   console.log(user);
   // const timeRemaining =
   const leftDays = moment(item.endAt).diff(item.startAt, "days");
@@ -152,7 +153,7 @@ export default function Detail() {
                   </Typography>
                 </CardContent>
               </Card>
-              {item.username === user ? (
+              {item.username === user && !user ? (
                 <Button
                   variant="contained"
                   size="small"
@@ -173,20 +174,39 @@ export default function Detail() {
                   프로젝트 수정 / 삭제하기 ✍
                 </Button>
               ) : (
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={onClickBuy}
-                  color="error"
-                  sx={{
-                    mt: 5,
-                    py: 3,
-                    fontSize: 20,
-                    backgroundColor: "#f86453",
-                  }}
-                >
-                  이 프로젝트 후원하기
-                </Button>
+                <>
+                  {user !== null ? (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={onClickBuy}
+                      color="error"
+                      sx={{
+                        mt: 5,
+                        py: 3,
+                        fontSize: 20,
+                        backgroundColor: "#f86453",
+                      }}
+                    >
+                      이 프로젝트 후원하기
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      disabled
+                      color="error"
+                      sx={{
+                        mt: 5,
+                        py: 3,
+                        fontSize: 20,
+                        backgroundColor: "#f86453",
+                      }}
+                    >
+                      로그인 후 사용해주십시오
+                    </Button>
+                  )}
+                </>
               )}
             </Box>
           </Box>
