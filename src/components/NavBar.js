@@ -66,7 +66,7 @@ const NavBar = () => {
               sx={{
                 mr: 1,
                 color: "#000000",
-                display: { xs: "none", md: "flex" },
+                display: { xs: "display", md: "flex" },
               }}
             >
               <div>Gongguri</div> {/* 공구리 */}
@@ -124,7 +124,7 @@ const NavBar = () => {
           >
             <div>GongGuRi</div>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 id={page}
@@ -153,13 +153,18 @@ const NavBar = () => {
               프로젝트 올리기
             </Link> */}
             {document.cookie ? (
-              <Button variant="outlined" onClick={logoutHandler}>
+              <Button
+                variant="outlined"
+                onClick={logoutHandler}
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
                 로그아웃
               </Button>
             ) : (
               <Button
                 variant="outlined"
                 onClick={() => history.push("/signin")}
+                sx={{ display: { xs: "none", md: "flex" } }}
               >
                 로그인 / 회원가입
               </Button>
