@@ -4,13 +4,16 @@ import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import postReducer from "./modules/postReducer";
 import loginReducer from "./modules/loginReducer";
-import logger from "redux-logger";
+import commentReducer from "./modules/commentReducer";
+import imageReducer from "./modules/imageReducer";
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
   loginReducer: loginReducer,
   postReducer: postReducer,
+  commentReducer: commentReducer,
+  imageReducer: imageReducer,
 });
 
 const middlewares = [thunk.withExtraArgument({ history: history })];
@@ -18,7 +21,7 @@ const middlewares = [thunk.withExtraArgument({ history: history })];
 const env = process.env.NODE_ENV;
 
 if (env === "development") {
-  // const { logger } = require("redux-logger");
+  const { logger } = require("redux-logger");
   middlewares.push(logger);
 }
 

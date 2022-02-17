@@ -13,38 +13,37 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/loginReducer";
 
-const pages = ["홈", "인기", "신규"];
+const pages = ["🏠홈", "🔥인기", "👋신규"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const isLogin = useSelector((state) => state.loginReducer.token);
   const history = useHistory();
   const handleOpenNavMenu = (event) => {
-    console.log(event);
     setAnchorElNav(event.currentTarget);
   };
   const user = useSelector((state) => state.loginReducer.userinfo);
   const dispatch = useDispatch();
-  console.log(user);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-    console.log(event);
   };
+  React.useEffect(() => {}, [isLogin]);
 
   const handleCloseNavMenu = (e) => {
     setAnchorElNav(null);
-    if (e.target.id === "홈") {
+    if (e.target.id === "🏠홈") {
       history.push("/");
-    } else if (e.target.id === "인기") {
+    } else if (e.target.id === "🔥인기") {
       history.push("/popular");
-    } else if (e.target.id === "신규") {
+    } else if (e.target.id === "👋신규") {
       history.push("/new");
     } else {
-      console.log(e.target.id);
     }
   };
   const logoutHandler = () => {
     dispatch(loginActions.logOutDB());
+    // setIsLogin(false);
     history.push("/");
   };
 
@@ -60,12 +59,13 @@ const NavBar = () => {
             <Typography
               fontFamily="-apple-system"
               variant="h6"
+              fontWeight="800"
               noWrap
               component="div"
               sx={{
                 mr: 1,
                 color: "#000000",
-                display: { xs: "none", md: "flex" },
+                display: { xs: "flex", md: "flex" },
               }}
             >
               <div>GongGuRi</div> {/* 공구리 */}
@@ -108,8 +108,6 @@ const NavBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} id={page} onClick={handleCloseNavMenu}>
-                  {" "}
-                  {/* 홈 인기 신규 */}
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -123,7 +121,7 @@ const NavBar = () => {
           >
             <div>GongGuRi</div>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 id={page}
@@ -143,21 +141,52 @@ const NavBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {document.cookie ? (
-              <Link to="/addpost">프로젝트 올리기</Link>
+            {isLogin ? (
+              <>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{
+                    mr: 3,
+                    fontWeight: "bold",
+                    border: "solid 2px #ff444b",
+                    color: "#ff444b",
+                  }}
+                  onClick={() => history.push("/addpost")}
+                >
+                  게시글 작성✍
+                </Button>
+              </>
             ) : null}
 
             {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
               프로젝트 올리기
             </Link> */}
-            {document.cookie ? (
-              <Button variant="outlined" onClick={logoutHandler}>
+            {isLogin ? (
+              <Button
+                variant="outlined"
+                onClick={logoutHandler}
+                color="error"
+                sx={{
+                  mr: 3,
+                  fontWeight: "bold",
+                  border: "solid 2px #ff444b",
+                  color: "#ff444b",
+                }}
+              >
                 로그아웃
               </Button>
             ) : (
               <Button
                 variant="outlined"
                 onClick={() => history.push("/signin")}
+                color="error"
+                sx={{
+                  mr: 3,
+                  fontWeight: "bold",
+                  border: "solid 2px #ff444b",
+                  color: "#ff444b",
+                }}
               >
                 로그인 / 회원가입
               </Button>

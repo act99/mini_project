@@ -2,7 +2,6 @@ const getCookie = (name) => {
   let value = document.cookie;
   let parts = value.split(`=`);
   parts.shift();
-  console.log(parts[0]);
   let result = parts[0];
   return result;
   // if (parts.length === 2) {
@@ -10,6 +9,9 @@ const getCookie = (name) => {
   // }
 };
 const setCookie = (name, value, exp = 5) => {
+  if (document.cookie) {
+    return;
+  }
   const date = new Date();
   date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * exp);
   document.cookie = `${name}=${value}; expires = ${date.toUTCString()}`;

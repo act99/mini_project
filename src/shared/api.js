@@ -3,12 +3,14 @@ import axios from "axios";
 const tokenCheck = document.cookie;
 const token = tokenCheck.split("=")[1];
 const api = axios.create({
+  // 실제 베이스 유알엘
+  baseURL: "http://13.125.206.220:8080",
   // baseURL: "http://3.36.71.110",
-  // baseURL: "https://3.36.65.28:8080",
-  baseURL: "https://goonzu.shop",
+  // baseURL: "http://52.78.96.234:8080",
   headers: {
     "content-type": "application/json;charset=UTF-8",
-    accept: "application/json,",
+    accept: "application/json",
+    // accept: "application/json,",
     token: token,
   },
 });
@@ -37,19 +39,12 @@ export const apis = {
   edit: (postID, contents) => api.put(`/api/posts/${postID}`, contents),
   delete: (postID) => api.delete(`/api/posts/${postID}`),
   imageUpload: (image) => api.post(`/api/image`, image),
-  // article
-  // add: (contents) => api.post("/api/articles", contents),
-  // edit: (id, contents) => api.put(`api/articles/${id}`, contents),
-  // del: (id) => api.delete(`api/articles/${id}`),
-  // articles: () => api.get("/api/articles"),
-  // article: (id) => api.get(`/api/articles/${id}`),
-  // search: (value) => api.get(`/api/articles/search?query=${value}`),
-
-  // // comment
-  // addComment: (id, content) =>
-  //   api.post(`/api/articles/${id}/comments`, { content }),
-  // comments: (id) => api.get(`/api/articles/${id}/comments`),
-  // delComment: (id, coId) => api.delete(`/api/articles/${id}/comments/${coId}`),
+  buyCount: (postId) => api.post(`/api/posts/${postId}/buycount`),
+  // comment
+  addComment: (postId, comment) =>
+    api.post(`/api/${postId}/comments`, { comment: comment }),
+  getComments: (postId) => api.get(`/api/${postId}/comments`),
+  delComment: (commentId) => api.delete(`/api/comments/${commentId}`),
   // editComment: (id, coId, content) =>
   //   api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 

@@ -56,13 +56,6 @@ export default function Signup() {
           data.get("checkPassword")
         )
       );
-
-      console.log({
-        email: data.get("email"),
-        nickname: data.get("nickname"),
-        password: data.get("password"),
-        checkPassword: data.get("checkPassword"),
-      });
     }
   };
 

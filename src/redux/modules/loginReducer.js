@@ -29,7 +29,6 @@ const loginDB = (id, pwd) => {
     apis
       .login(id, pwd)
       .then((res) => {
-        console.log(res.headers);
         setCookie("token", res.headers["authorization"], 1);
         const token = res.headers["authorization"];
         // localStorage.setItem("authorization", token);
@@ -50,25 +49,18 @@ const loginDB = (id, pwd) => {
         // dispatch(userInfo(res.headers["authorization"], id, pwd));
       })
       .catch((error) => alert("회원정보가 일치하지 않습니다."));
-    // apis
-    //   .login(id, pwd)
-    //   .then((res) => console.log(res))
-    //   .catch((error) => console.log(error));
   };
 };
 
 const loginCheckDB = () => {
   return function (dispatch, getState, { history }) {
     const tokenCheck = document.cookie;
-    console.log(tokenCheck);
     const token = tokenCheck.split("=")[1];
     // const token = tokenDummy.split("=")[1].toString();
-    console.log(token);
     if (token) {
       apis
         .userInfo(token)
         .then((res) => {
-          console.log(token);
           dispatch(
             setUser({
               email: res.data.username,
@@ -95,6 +87,7 @@ const logOutDB = () => {
     // localStorage.removeItem("authorization");
     dispatch(logOut({ userinfo: { email: "", nickname: "" }, token: null }));
     history.replace("/");
+    history.go(0);
   };
 };
 
@@ -103,12 +96,11 @@ const SignUpDB = (id, nickname, pwd, passwordcheck) => {
     apis
       .signup(id, nickname, pwd, passwordcheck)
       .then((res) => {
-        console.log(res, "회원가입 성공");
+        alert("회원가입이 완료되었습니다.");
         history.push("/signin");
       })
       .catch((error) => {
-        alert("중복된 아이디가 있습니다.");
-        console.log(error.message);
+        alert("회원가입에 실패했습니다.");
       });
   };
 };
@@ -117,10 +109,7 @@ const userInfoDB = (token) => {
   return function (dispatch, getState, { history }) {
     apis
       .userInfo(token)
-      .then((res) => {
-        // dispatch(userInfo({ id: res.data.username }));
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((error) => console.log(error));
   };
 };

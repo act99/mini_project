@@ -19,11 +19,13 @@ import New from "./pages/New";
 import { actionCreators as loginActions } from "./redux/modules/loginReducer";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { Link } from "@mui/material";
 
 function App() {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    console.log("hi");
     if (document.cookie) dispatch(loginActions.loginCheckDB());
   }, []);
 
@@ -42,7 +44,51 @@ function App() {
           <Route path="/detail/:id" exact component={Detail} />
           <Route path="/new" exact component={New} />
         </Container>
+        {/* Footer */}
+        <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
+          <Typography variant="h6" align="center" gutterBottom>
+            Gongguri
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            color="text.secondary"
+            component="p"
+          >
+            항해99 미니프로젝트
+          </Typography>
+          <Copyright />
+        </Box>
+        {/* End footer */}
       </ConnectedRouter>
+    </>
+  );
+}
+
+function Copyright() {
+  return (
+    <>
+      <Typography variant="body2" color="text.secondary" align="center">
+        {"Copyright © "}
+        <Link color="inherit" href="https://github.com/act99/mini_project">
+          Frontend
+        </Link>
+
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" align="center">
+        {"Copyright © "}
+
+        <Link
+          color="inherit"
+          href="https://github.com/hyeonjh/gongguri_backend"
+        >
+          Back end
+        </Link>
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
     </>
   );
 }

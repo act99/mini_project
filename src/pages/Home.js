@@ -12,7 +12,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { actionCreators as postActions } from "../redux/modules/postReducer";
-import Example from "../components/Carousel";
+import Slider from "../components/Carousel";
 import { useHistory } from "react-router-dom";
 
 const Item = styled(Box)(({ theme }) => ({
@@ -31,7 +31,26 @@ export default function Home() {
   React.useEffect(() => {
     dispatch(postActions.getPostDB());
   }, []);
-  console.log(post);
+  const _post = useSelector((state) => state.postReducer.list);
+  const newCopy = [..._post];
+
+  newCopy.sort(function (a, b) {
+    return (
+      ((a.buyercount * 1) / a.minimum) * 1 -
+      ((b.buyercount * 1) / b.minimum) * 1
+    );
+  });
+  // newCopy.sort((a, b) => a.postId - b.postId);
+  let newPost = newCopy.slice(0, 8);
+  const popularCopy = [..._post];
+  popularCopy.sort(function (a, b) {
+    return (
+      ((b.buyercount * 1) / b.minimum) * 1 -
+      ((a.buyercount * 1) / a.minimum) * 1
+    );
+  });
+  // popularCopy.sort((a, b) => a.postId - b.postId);
+  let popularPost = popularCopy.slice(0, 8);
   return (
     <ThemeProvider theme={theme}>
       <Box></Box>
@@ -46,7 +65,7 @@ export default function Home() {
               슬라이드
             </Item> */}
             {/* ...............................................start신규공동구매........................................ */}
-            <Example />
+            <Slider props={popularPost} />
             <Item
               sx={{
                 maXwidth: "770px",
@@ -67,7 +86,7 @@ export default function Home() {
                 신규 공동구매
               </Box>
               <Grid container spacing={2}>
-                {post.map((item, index) => (
+                {newPost.map((item, index) => (
                   <Grid
                     item
                     key={item.postId + item.title}
@@ -125,7 +144,12 @@ export default function Home() {
                         >
                           {item.title}
                           <FundingStatus>
-                            <span>25% 달성</span>
+                            <span>
+                              {Math.ceil(
+                                (item.buyercount / item.minimum) * 100
+                              )}
+                              % 달성
+                            </span>
                           </FundingStatus>
                         </Typography>
                       </CardContent>
@@ -154,7 +178,7 @@ export default function Home() {
                 인기 공동구매
               </Box>
               <Grid container spacing={2}>
-                {post.map((item, index) => (
+                {popularPost.map((item, index) => (
                   <Grid
                     item
                     key={item.postId + item.title}
@@ -211,7 +235,12 @@ export default function Home() {
                         >
                           {item.title}
                           <FundingStatus>
-                            <span>25% 달성</span>
+                            <span>
+                              {Math.ceil(
+                                (item.buyercount / item.minimum) * 100
+                              )}
+                              % 달성
+                            </span>
                           </FundingStatus>
                         </Typography>
                       </CardContent>
@@ -261,7 +290,7 @@ export default function Home() {
                 </Box>
 
                 <Grid container spacing={2}>
-                  {post.map((item, index) => (
+                  {popularPost.map((item, index) => (
                     <Grid
                       item
                       key={item.postId + item.title}
@@ -331,7 +360,12 @@ export default function Home() {
                           >
                             {item.title}
                             <FundingStatus>
-                              <span>25% 달성</span>
+                              <span>
+                                {Math.ceil(
+                                  (item.buyercount / item.minimum) * 100
+                                )}
+                                % 달성
+                              </span>
                             </FundingStatus>
                           </Typography>
                         </CardContent>
