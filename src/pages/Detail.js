@@ -59,7 +59,7 @@ export default function Detail() {
                     component="div"
                     sx={{ mb: 3, textAlign: "center" }}
                   >
-                    프로젝트 소개
+                    공동구매 소개
                   </Typography>
                   <Typography
                     sx={{ fontSize: 14 }}
@@ -80,7 +80,7 @@ export default function Detail() {
               }}
             >
               <Typography variant="h5" component="div" sx={{ mb: 3 }}>
-                🔥 펀드 진행중 🔥
+                🔥 공동구매 진행중 🔥
               </Typography>
               <Card
                 sx={{
@@ -143,7 +143,7 @@ export default function Detail() {
                     color="text.secondary"
                     gutterBottom
                   >
-                    후원자
+                    구매자
                   </Typography>
                   <Typography variant="h4" component="div">
                     {item.buyercount}
@@ -161,7 +161,7 @@ export default function Detail() {
                     sx={{ mb: 1.5, fontweight: "20" }}
                     color="text.first"
                   >
-                    펀드진행중
+                    공동구매 진행 중
                   </Typography>
                   <Typography variant="body2">
                     목표 금액인{" "}
@@ -194,7 +194,7 @@ export default function Detail() {
                     });
                   }}
                 >
-                  프로젝트 수정 / 삭제하기 ✍
+                  공동구매 수정 / 삭제하기 ✍
                 </Button>
               ) : (
                 <>
@@ -211,7 +211,7 @@ export default function Detail() {
                         backgroundColor: "#f86453",
                       }}
                     >
-                      이 프로젝트 후원하기
+                      이 공동구매 참여하기
                     </Button>
                   ) : (
                     <Button

@@ -50,7 +50,7 @@ export default function Popualr() {
             variant="h4"
             sx={{ fontWeight: "bold", ml: 1, mb: 6, mt: 1 }}
           >
-            🔥 인기 프로젝트 🔥
+            🔥 인기 공동구매 🔥
           </Typography>
           <FormControl sx={{ m: 1, minWidth: 120, paddingBottom: 5 }}>
             <Select

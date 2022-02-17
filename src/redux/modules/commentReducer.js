@@ -49,6 +49,8 @@ const deleteCommentDB = (commentId) => {
   return function (dispatch, getState, { history }) {
     apis.delComment(commentId).then((res) => {
       dispatch(deleteComment(commentId));
+      alert("댓글이 삭제되었습니다.");
+      history.go(0);
     });
   };
 };

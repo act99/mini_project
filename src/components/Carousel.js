@@ -85,7 +85,7 @@ function Slider(props) {
               }}
             >
               <Typography sx={{ fontWeight: "light", fontSize: 11 }}>
-                {item.nickname} 님의 프로젝트
+                {item.nickname} 님의 공동구매
               </Typography>
               <Typography
                 gutterBottom

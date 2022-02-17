@@ -50,7 +50,7 @@ export default function New() {
             variant="h4"
             sx={{ fontWeight: "bold", ml: 1, mb: 6, mt: 1 }}
           >
-            👋 신규 프로젝트 👋
+            👋 신규 공동구매 👋
           </Typography>
           <FormControl sx={{ m: 1, minWidth: 120, paddingBottom: 5 }}>
             <Select

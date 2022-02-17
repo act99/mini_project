@@ -45,13 +45,13 @@ const Comment = (props) => {
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, mt: 15, mb: 3 }}
         >
-          💪 후원 댓글 달기 💪
+          💪 응원 댓글 달기 💪
         </Typography>
         <Typography variant="h7" sx={{ ml: 1 }}>
-          이 프로젝트는 여러분들의 댓글을 기다리고 있습니다.
+          이 공동구매는 여러분들의 댓글을 기다리고 있습니다.
         </Typography>
         <Typography variant="h7" sx={{ ml: 1, mb: 10 }}>
-          여러분들이 후원한 프로젝트를 응원해주세요.
+          여러분들이 구매할 공동구매를 응원해주세요.
         </Typography>
         <Grid
           sx={{
