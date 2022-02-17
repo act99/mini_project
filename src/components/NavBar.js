@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/loginReducer";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
 const pages = ["홈", "인기", "신규"];
 
 const NavBar = () => {
@@ -64,9 +64,8 @@ const NavBar = () => {
               noWrap
               component="div"
               sx={{
-                mr: 1,
                 color: "#000000",
-                display: { xs: "display", md: "flex" },
+                display: { xs: "block", md: "block" },
               }}
             >
               <div>Gongguri</div> {/* 공구리 */}
@@ -75,7 +74,7 @@ const NavBar = () => {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: "flex", md: "none" },
+              display: { xs: "none", md: "none" },
             }}
           >
             <IconButton
@@ -104,7 +103,7 @@ const NavBar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: "none", md: "none" },
               }}
             >
               {pages.map((page) => (
@@ -124,7 +123,7 @@ const NavBar = () => {
           >
             <div>GongGuRi</div>
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 id={page}
@@ -134,7 +133,7 @@ const NavBar = () => {
                   fontSize: "20px", //33333333333333
                   my: 2,
                   color: "black",
-                  display: "block",
+
                   fontWeight: "800", //44444444444444
                   fontStyle: "italic",
                 }}
@@ -144,14 +143,29 @@ const NavBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: "flex",
+              flexDirection: "low",
+            }}
+          >
             {document.cookie ? (
               <Link to="/addpost">프로젝트 올리기</Link>
             ) : null}
 
-            {/* <Link href="/" color="#000000" sx={{ mr: 10 }}>
-              프로젝트 올리기
-            </Link> */}
+            {
+              <Link href="/" color="#000000">
+                <Box
+                  sx={{
+                    m: "5px",
+                    display: { xs: "flex", md: "flex" },
+                  }}
+                >
+                  프로젝트 올리기
+                </Box>
+              </Link>
+            }
             {document.cookie ? (
               <Button
                 variant="outlined"
@@ -164,7 +178,7 @@ const NavBar = () => {
               <Button
                 variant="outlined"
                 onClick={() => history.push("/signin")}
-                sx={{ display: { xs: "none", md: "flex" } }}
+                sx={{ display: { xs: "flex", md: "flex" } }}
               >
                 로그인 / 회원가입
               </Button>
