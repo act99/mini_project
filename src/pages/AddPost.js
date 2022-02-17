@@ -16,6 +16,7 @@ import { actionCreators as postActions } from "../redux/modules/postReducer";
 import { apis } from "../shared/api";
 import { actionCreators as imageActions } from "../redux/modules/imageReducer";
 import axios from "axios";
+import { axapis } from "../shared/formApi";
 
 const AddPage = () => {
   const [image, setImage] = React.useState();
@@ -64,10 +65,19 @@ const AddPage = () => {
     let formData = new FormData();
     console.log(imageFile);
     formData.append("file", imageFile);
-    apis
-      .imageUpload(formData)
-      .then((res) => setLoadingImage(true))
+    axapis
+      .postImage(formData)
+      .then((res) => {
+        setLoadingImage(true);
+        console.log("성공");
+      })
       .catch((error) => console.log(error));
+    // apis
+    //   .imageUpload(formData)
+    //   .then((res) => setLoadingImage(true))
+    //   .catch((error) => console.log(error));
+
+    //*** */
     // console.log(formData.get("file"));
     // const api = axios.create({
     //   baseURL: "http://13.125.206.220:8080",
@@ -165,12 +175,12 @@ const AddPage = () => {
         >
           프로젝트 이름을 적어주세요.
         </Typography>
-        <Input
+        {/* <Input
           type="file"
           ref={fileInput}
           onChange={filePreview}
           accept="image/*"
-        />
+        /> */}
         <Button onClick={addImage}>버튼</Button>
         <TextField
           required
