@@ -36,9 +36,7 @@ const getPostDB = () => {
     apis
       .get()
       .then((res) => {
-        console.log(res.data);
         dispatch(setPost(res.data));
-        console.log(res.data);
       })
       .catch((error) => console.log(error));
   };
@@ -50,20 +48,13 @@ const editPostDB = (postId, contents) => {
       .edit(postId, contents)
       .then((res) => {
         dispatch(editPost(contents));
-        console.log(res);
         history.push("/");
       })
       .catch((error) => {
-        console.log(error);
         alert("게시글 수정에 실패했습니다.");
       });
   };
 };
-// const editPostDB = (postID, contents) => {
-//   apis.edit(postID, contents).then((res) => {
-//     console.log(res);
-//   });
-// };
 
 const deletePostDB = (postId) => {
   return function (dispatch, getState, { history }) {
@@ -82,7 +73,6 @@ const deletePostDB = (postId) => {
 };
 
 const addPostDB = (contents) => {
-  console.log(contents);
   let postContent = {
     ...initalPost,
     title: contents.title,
@@ -90,6 +80,7 @@ const addPostDB = (contents) => {
     endAt: contents.endAt,
     price: contents.price,
     minimum: contents.minimum,
+    imageUrl: contents.imageUrl,
   };
   console.log(postContent);
   return function (dispatch, getState, { history }) {
@@ -97,11 +88,10 @@ const addPostDB = (contents) => {
       .add(postContent)
       .then((res) => {
         dispatch(addPost(postContent));
-        history.push("/");
+        history.replace("/");
       })
       .catch((error) => {
         alert("저장에 실패했습니다. 네트워크 상태를 확인해주세요.");
-        console.log(error);
       });
   };
 };
@@ -110,18 +100,7 @@ export default handleActions(
   {
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.post_list);
         draft.list = [...action.payload.post_list];
-        // draft.list = [...action.payload.list];
-        // draft.push(...action.payload.post_list);
-        // draft.list = draft.list.reduce((acc, curr) => {
-        //   if (acc.findIndex((a) => a.id === curr.id) === -1) {
-        //     return [...acc, curr];
-        //   } else {
-        //     acc[acc.findIndex((a) => a.id === curr.id)] = curr;
-        //     return acc;
-        //   }
-        // }, []);
       }),
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {

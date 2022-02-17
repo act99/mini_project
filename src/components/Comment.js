@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../shared/api";
 import { actionCreators as commentActions } from "../redux/modules/commentReducer";
 import { useHistory } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 const Comment = (props) => {
   const [text, setText] = React.useState("");
@@ -36,46 +37,86 @@ const Comment = (props) => {
   }, [loading]);
   return (
     <>
-      <Grid container direction="row" marginTop={10} sx={{ width: "1200px" }}>
-        <Input
-          type="text"
-          placeholder="최대 100자까지 댓글을 남길 수 있습니다!"
-          maxlength="100"
-          onChange={commentChange}
-        />
-        <StyleSendIcon onClick={commentOnClick} fontSize="14px"></StyleSendIcon>
-      </Grid>
-      {comment_list.map((item, index) => {
-        return (
-          <Grid
-            key={item.commentId + item.comment}
-            container
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            marginTop={10}
-            sx={{ width: "100", border: "2px solid #f14444 " }}
-          >
-            <Grid>
-              <Text>{item.nickname}</Text>
-            </Grid>
-            <Grid>
-              <Text>{item.comment}</Text>
-            </Grid>
-            <Grid>
-              {loading === true && userinfo.email === item.username ? (
-                <Button
-                  onClick={() => {
-                    dispatch(commentActions.deleteCommentDB(item.commentId));
-                  }}
-                >
-                  삭제
-                </Button>
-              ) : null}
-            </Grid>
-          </Grid>
-        );
-      })}
+      <Container
+        maxWidth="lg"
+        sx={{ display: "flex", flexDirection: "column", textAlign: "center" }}
+      >
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: "bold", ml: 1, mt: 15, mb: 3 }}
+        >
+          💪 후원 댓글 달기 💪
+        </Typography>
+        <Typography variant="h7" sx={{ ml: 1 }}>
+          이 프로젝트는 여러분들의 댓글을 기다리고 있습니다.
+        </Typography>
+        <Typography variant="h7" sx={{ ml: 1, mb: 10 }}>
+          여러분들이 후원한 프로젝트를 응원해주세요.
+        </Typography>
+        <Grid
+          sx={{
+            minWidth: "500px",
+            display: "flex",
+            flexDirection: "row",
+            mx: "auto",
+            mt: 2,
+            width: "80%",
+          }}
+        >
+          <Input
+            type="text"
+            placeholder="최대 50자까지 댓글을 남길 수 있습니다!"
+            maxlength="50"
+            onChange={commentChange}
+          />
+          <StyleSendIcon
+            onClick={commentOnClick}
+            fontSize="14px"
+          ></StyleSendIcon>
+        </Grid>
+
+        {comment_list.map((item, index) => {
+          return (
+            <div key={item.commentId + item.nickname + index}>
+              <Grid container spacing={2} sx={{ my: 2 }}>
+                <Grid item xs={6} md={8} sx={{ textAlign: "left" }}>
+                  <Grid sx={{ padding: "10px 10px 10px 50px" }}>
+                    {item.nickname}
+                  </Grid>
+                  <Grid sx={{ padding: "10px 10px 10px 50px" }}>
+                    {item.comment}
+                  </Grid>
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <Grid
+                    container
+                    sx={{
+                      display: "block",
+                      paddingTop: "16px",
+                      paddingRight: "30px",
+                    }}
+                  >
+                    {loading === true && userinfo.email === item.username ? (
+                      <Button
+                        onClick={() => {
+                          dispatch(
+                            commentActions.deleteCommentDB(item.commentId)
+                          );
+                        }}
+                        size="large"
+                        sx={{ fontSize: "20px", float: "right" }}
+                      >
+                        삭제
+                      </Button>
+                    ) : null}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Hr />
+            </div>
+          );
+        })}
+      </Container>
     </>
   );
 };
@@ -84,9 +125,9 @@ const Input = styled.input`
   border: none;
   background: none;
   border-bottom: solid 1.5px #f14444;
-  padding: 12px 4px;
-  min-width: 1100px;
-
+  padding: 15px;
+  min-width: 85%;
+  margin-right: 20px;
   &:focus {
     outline: none;
     border-bottom: 2px solid #f14444;
@@ -96,9 +137,8 @@ const Input = styled.input`
 const StyleSendIcon = styled(SendIcon)`
   && {
     font-size: 2rem;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-left: 15px;
-    margin-right: 10px;
     color: #b3aaaa;
     &:hover {
       cursor: pointer;
@@ -108,8 +148,12 @@ const StyleSendIcon = styled(SendIcon)`
     }
   }
 `;
-const Text = styled.p`
-  font-size: 15px;
+const Hr = styled.hr`
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 6px -10px #bbb inset;
+  width: 95%;
+  margin: auto;
 `;
 
 export default Comment;

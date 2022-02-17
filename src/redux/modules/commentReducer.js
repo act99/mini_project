@@ -41,7 +41,6 @@ const getCommentDB = (postId) => {
       .getComments(postId)
       .then((res) => {
         dispatch(setComment(res.data));
-        // console.log(res.data);
       })
       .catch((error) => console.log(error));
   };
@@ -49,7 +48,6 @@ const getCommentDB = (postId) => {
 const deleteCommentDB = (commentId) => {
   return function (dispatch, getState, { history }) {
     apis.delComment(commentId).then((res) => {
-      console.log(res);
       dispatch(deleteComment(commentId));
     });
   };

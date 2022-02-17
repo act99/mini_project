@@ -12,17 +12,34 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import styled from "styled-components";
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8];
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/postReducer";
+import moment from "moment";
+import { useHistory } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function Popualr() {
   const [rate, setRate] = React.useState("");
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setRate(event.target.value);
   };
+  const history = useHistory();
+  React.useEffect(() => {
+    dispatch(postActions.getPostDB());
+  }, []);
+  const _post = useSelector((state) => state.postReducer.list);
+  const copy = [..._post];
+  copy.sort(function (a, b) {
+    return (
+      ((b.buyercount * 1) / b.minimum) * 1 -
+      ((a.buyercount * 1) / a.minimum) * 1
+    );
+  });
+  // copy.sort((a, b) => a.postId - b.postId);
+  let post = copy.slice();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -51,11 +68,14 @@ export default function Popualr() {
             </Select>
           </FormControl>
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={3}>
+            {post.map((item) => (
+              <Grid item key={item.postId + item.title} xs={12} sm={6} md={3}>
                 <Card
                   onClick={() => {
-                    console.log("인기 카드 클릭!");
+                    history.push({
+                      pathname: `/detail/${item.postId}`,
+                      state: { item: item },
+                    });
                   }}
                   sx={{
                     height: "422px",
@@ -67,14 +87,14 @@ export default function Popualr() {
                   <CardMedia
                     sx={{ maxHeight: "50%", minHeight: "234.86px" }}
                     component="img"
-                    image="https://source.unsplash.com/random"
+                    image={item.imageUrl}
                     alt="random"
                   />
                   <CardContent
                     sx={{ flexGrow: 1, minHeight: "186px", paddingLeft: 0.5 }}
                   >
                     <Typography sx={{ fontWeight: "light", fontSize: 11 }}>
-                      음악 | (주)뮤직파라디소
+                      {item.nickname}
                     </Typography>
                     <Typography
                       gutterBottom
@@ -82,17 +102,28 @@ export default function Popualr() {
                       component="h2"
                       sx={{ fontWeight: "bold", fontSize: 14.5, paddingTop: 1 }}
                     >
-                      이누야샤 OST 앨범 재발매 프로젝트
+                      {item.title}
                     </Typography>
                     <Typography
                       sx={{ fontSize: 12, paddingTop: 1, paddingBottom: 4 }}
                     >
-                      그 때 그 시절 그 노래 이누야샤의 음악을 다시 만듭니다.
+                      {item.content.length > 30
+                        ? item.content.slice(0, 30) + "..."
+                        : item.content}
                     </Typography>
                     <FundingStatus>
-                      <span>25%</span>
-                      <span>100원</span>
-                      <span>100일 남음</span>
+                      <span>
+                        {Math.ceil((item.buyercount / item.minimum) * 100)}%
+                      </span>
+                      <span>
+                        {(item.price * item.buyercount)
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        원
+                      </span>
+                      <span>
+                        {moment(item.endAt).diff(item.startAt, "days")} 일
+                      </span>
                     </FundingStatus>
                   </CardContent>
                 </Card>

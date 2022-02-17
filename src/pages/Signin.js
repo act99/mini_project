@@ -47,10 +47,6 @@ export default function Signin() {
     } else {
       // dispatch(userActions);
       dispatch(userActions.loginDB(data.get("email"), data.get("password")));
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
     }
   };
 
@@ -138,7 +134,6 @@ export default function Signin() {
                 로그인
               </Typography>
             </Button>
-            <Button onClick={() => getCookie("token")}>쿠키확인</Button>
             <Grid container>
               <Grid item xs sx={{ mt: 5 }}>
                 <Typography variant="caption">

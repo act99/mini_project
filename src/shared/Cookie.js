@@ -2,7 +2,6 @@ const getCookie = (name) => {
   let value = document.cookie;
   let parts = value.split(`=`);
   parts.shift();
-  console.log(parts[0]);
   let result = parts[0];
   return result;
   // if (parts.length === 2) {

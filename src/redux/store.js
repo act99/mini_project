@@ -5,6 +5,7 @@ import thunk from "redux-thunk";
 import postReducer from "./modules/postReducer";
 import loginReducer from "./modules/loginReducer";
 import commentReducer from "./modules/commentReducer";
+import imageReducer from "./modules/imageReducer";
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   loginReducer: loginReducer,
   postReducer: postReducer,
   commentReducer: commentReducer,
+  imageReducer: imageReducer,
 });
 
 const middlewares = [thunk.withExtraArgument({ history: history })];

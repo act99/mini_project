@@ -39,7 +39,6 @@ const EditPost = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const item = location.state.item;
-  console.log(location.state);
   // 이미지 업로드
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -59,50 +58,18 @@ const EditPost = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log("hi");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(date.toISOString().substring(0, 10).slice(8, 10) * 1);
-    console.log(data.get("title"), data.get("desc"));
     let contents = {
       title: data.get("title"),
       content: data.get("desc"),
-      endAt: date.toISOString().substring(0, 10),
-      minimum: data.get("minimum"),
-      price: data.get("price"),
     };
     if (data.get("title").length < 1) {
       alert("프로젝트 이름을 적어주세요");
     } else if (data.get("desc").length < 11) {
       alert("소개글을 최소 10자 이상 적어주세요.");
-    } else if (
-      date.toISOString().substring(0, 10).slice(0, 4) * 1 <
-        moment().format("YYYY-MM-DD").slice(0, 4) * 1 ||
-      date.toISOString().substring(0, 10).slice(5, 7) * 1 <
-        moment().format("YYYY-MM-DD").slice(5, 7) * 1 ||
-      date.toISOString().substring(0, 10).slice(8, 10) * 1 <=
-        moment().format("YYYY-MM-DD").slice(8, 10) * 1
-    ) {
-      alert("현재 날짜보다 미래의 날짜를 정해주세요.");
-    } else if (
-      data.get("price") <= 0 ||
-      data.get("price") === null ||
-      data.get("price") === undefined
-    ) {
-      alert("금액을 입력해주세요.");
-    } else if (
-      data.get("minimum") <= 0 ||
-      data.get("minimum") === null ||
-      data.get("minimum") === undefined
-    ) {
-      alert("최소 후원자 수를 입력해주세요.");
     } else {
-      console.log(contents);
       dispatch(postActions.editPostDB(location.state.item.postId, contents));
-      // console.log(location.state.item.postId);
-      // console.log("Okay!");
-      // console.log(contents);
-      // dispatch(postActions.addPostDB(contents));
     }
   };
 
@@ -110,19 +77,15 @@ const EditPost = () => {
   const fileInput = React.useRef(null);
   const [upload, setUpload] = React.useState(false);
   const selectFile = (e) => {
-    console.log(e.target.files);
-    console.log(fileInput.current.files[0]);
     const reader = new FileReader();
     const file = fileInput.current.files[0];
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      console.log(reader.result);
       // dispatch(imageActions.setPreview(reader.result));
     };
     setUpload(true);
   };
 
-  console.log(date);
   return (
     <Grid
       container
@@ -230,7 +193,7 @@ const EditPost = () => {
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
-          모금을 종료하실 날짜를 선택해주세요.
+          선택하신 날짜
         </Typography>
         <LocalizationProvider dateAdapter={DateAdapter}>
           <MobileDatePicker
@@ -238,6 +201,7 @@ const EditPost = () => {
             inputFormat="MM/dd/yyyy"
             value={date}
             onChange={handleDate}
+            disabled
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
@@ -246,33 +210,17 @@ const EditPost = () => {
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
-          이미지를 선택해주세요.
+          선택하신 사진
         </Typography>
         <Box sx={{ width: "100%", maxWidth: 500, minHeight: 375 }}>
           <Image src={item.imageUrl} />
         </Box>
-
-        <Button
-          variant="contained"
-          component="label"
-          color="error"
-          sx={{ backgroundColor: "#f86453", mt: 5, mb: 10 }}
-        >
-          Upload File
-          <input
-            type="file"
-            onChange={selectFile}
-            ref={fileInput}
-            // disabled={is_uploading}
-            hidden
-          />
-        </Button>
         <Typography
           component="h1"
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
-          물건 개당 가격을 입력해주세요.
+          선택하신 물건 가격
         </Typography>
         <TextField
           defaultValue={item.price}
@@ -281,6 +229,7 @@ const EditPost = () => {
           id="outlined-required"
           name="price"
           label="가격"
+          disabled
           style={{
             width: "50%",
             // margin: "30px auto 0px auto",
@@ -292,12 +241,13 @@ const EditPost = () => {
           variant="h5"
           sx={{ fontWeight: "bold", ml: 1, my: 3 }}
         >
-          최소 후원자 수를 입력해주세요.
+          선택하신 후원자 수
         </Typography>
         <TextField
           defaultValue={item.minimum}
           type="number"
           required
+          disabled
           id="outlined-required"
           name="minimum"
           label="후원자 수"
