@@ -13,7 +13,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as loginActions } from "../redux/modules/loginReducer";
 
-const pages = ["홈", "인기", "신규"];
+const pages = ["🏠홈", "🔥인기", "👋신규"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -32,11 +32,11 @@ const NavBar = () => {
 
   const handleCloseNavMenu = (e) => {
     setAnchorElNav(null);
-    if (e.target.id === "홈") {
+    if (e.target.id === "🏠홈") {
       history.push("/");
-    } else if (e.target.id === "인기") {
+    } else if (e.target.id === "🔥인기") {
       history.push("/popular");
-    } else if (e.target.id === "신규") {
+    } else if (e.target.id === "👋신규") {
       history.push("/new");
     } else {
     }
@@ -145,9 +145,16 @@ const NavBar = () => {
               <>
                 <Button
                   variant="outlined"
+                  color="error"
+                  sx={{
+                    mr: 3,
+                    fontWeight: "bold",
+                    border: "solid 2px #ff444b",
+                    color: "#ff444b",
+                  }}
                   onClick={() => history.push("/addpost")}
                 >
-                  게시글 작성
+                  게시글 작성✍
                 </Button>
               </>
             ) : null}
@@ -156,13 +163,30 @@ const NavBar = () => {
               프로젝트 올리기
             </Link> */}
             {isLogin ? (
-              <Button variant="outlined" onClick={logoutHandler}>
+              <Button
+                variant="outlined"
+                onClick={logoutHandler}
+                color="error"
+                sx={{
+                  mr: 3,
+                  fontWeight: "bold",
+                  border: "solid 2px #ff444b",
+                  color: "#ff444b",
+                }}
+              >
                 로그아웃
               </Button>
             ) : (
               <Button
                 variant="outlined"
                 onClick={() => history.push("/signin")}
+                color="error"
+                sx={{
+                  mr: 3,
+                  fontWeight: "bold",
+                  border: "solid 2px #ff444b",
+                  color: "#ff444b",
+                }}
               >
                 로그인 / 회원가입
               </Button>

@@ -80,13 +80,15 @@ const addPostDB = (contents) => {
     endAt: contents.endAt,
     price: contents.price,
     minimum: contents.minimum,
+    imageUrl: contents.imageUrl,
   };
+  console.log(postContent);
   return function (dispatch, getState, { history }) {
     apis
       .add(postContent)
       .then((res) => {
         dispatch(addPost(postContent));
-        history.push("/");
+        history.replace("/");
       })
       .catch((error) => {
         alert("저장에 실패했습니다. 네트워크 상태를 확인해주세요.");

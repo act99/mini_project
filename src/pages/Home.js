@@ -145,7 +145,10 @@ export default function Home() {
                           {item.title}
                           <FundingStatus>
                             <span>
-                              {(item.buyercount / item.minimum) * 100}% 달성
+                              {Math.ceil(
+                                (item.buyercount / item.minimum) * 100
+                              )}
+                              % 달성
                             </span>
                           </FundingStatus>
                         </Typography>
@@ -233,7 +236,10 @@ export default function Home() {
                           {item.title}
                           <FundingStatus>
                             <span>
-                              {(item.buyercount / item.minimum) * 100}% 달성
+                              {Math.ceil(
+                                (item.buyercount / item.minimum) * 100
+                              )}
+                              % 달성
                             </span>
                           </FundingStatus>
                         </Typography>
@@ -355,7 +361,10 @@ export default function Home() {
                             {item.title}
                             <FundingStatus>
                               <span>
-                                {(item.buyercount / item.minimum) * 100}% 달성
+                                {Math.ceil(
+                                  (item.buyercount / item.minimum) * 100
+                                )}
+                                % 달성
                               </span>
                             </FundingStatus>
                           </Typography>

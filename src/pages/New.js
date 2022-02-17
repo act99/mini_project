@@ -107,10 +107,15 @@ export default function New() {
                     <Typography
                       sx={{ fontSize: 12, paddingTop: 1, paddingBottom: 4 }}
                     >
-                      {item.content}
+                      {item.content.length > 30
+                        ? item.content.slice(0, 30) + "..."
+                        : item.content}
                     </Typography>
                     <FundingStatus>
-                      <span> {(item.buyercount / item.minimum) * 100}%</span>
+                      <span>
+                        {" "}
+                        {Math.ceil((item.buyercount / item.minimum) * 100)}%
+                      </span>
                       <span>
                         {" "}
                         {(item.price * item.buyercount)

@@ -87,6 +87,7 @@ const logOutDB = () => {
     // localStorage.removeItem("authorization");
     dispatch(logOut({ userinfo: { email: "", nickname: "" }, token: null }));
     history.replace("/");
+    history.go(0);
   };
 };
 

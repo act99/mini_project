@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../shared/api";
 // import { actionCreators as userActions } from "../redux/modules/loginReducer";
 import Comment from "../components/Comment";
+import { textAlign } from "@mui/system";
 export default function Detail() {
   const location = useLocation();
   const item = location.state.item;
@@ -24,11 +25,12 @@ export default function Detail() {
     apis
       .buyCount(item.postId)
       .then((res) => {
-        alert("후원이 완료되었습니다.");
+        alert("후원 처리가 완료되었습니다.");
         history.replace("/");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => alert("로그인 후 사용해주세요."));
   };
+  React.useEffect(() => {}, []);
 
   //comment
   return (
@@ -51,8 +53,12 @@ export default function Detail() {
                 // style={{ maxWidth: 500, maxHeight: 375 }}
               />
               <Card sx={{ minWidth: 500, mt: 2, border: "solid 1px #C3C3C3" }}>
-                <CardContent>
-                  <Typography variant="h5" component="div" sx={{ mb: 3 }}>
+                <CardContent sx={{ maxWidth: 500, textAlign: "center" }}>
+                  <Typography
+                    variant="h5"
+                    component="div"
+                    sx={{ mb: 3, textAlign: "center" }}
+                  >
                     프로젝트 소개
                   </Typography>
                   <Typography
@@ -99,7 +105,7 @@ export default function Detail() {
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     원
                     <Typography variant="h6" component="span" sx={{ ml: 1 }}>
-                      {(item.buyercount / item.minimum) * 100}%
+                      {Math.ceil((item.buyercount / item.minimum) * 100)}%
                     </Typography>
                   </Typography>
                   <br />

@@ -43,6 +43,7 @@ const AddPage = () => {
   const preview = useSelector((state) => state.imageReducer.preview);
   const [loadingImage, setLoadingImage] = React.useState(false);
   const fileInput = React.useRef();
+  const [imageUrlLink, setImageUrlLink] = React.useState();
 
   const filePreview = (e) => {
     const reader = new FileReader();
@@ -68,8 +69,11 @@ const AddPage = () => {
     axapis
       .postImage(formData)
       .then((res) => {
+        console.log(res.data);
+        setImageUrlLink(res.data);
         setLoadingImage(true);
         console.log("성공");
+        alert("파일 업로드에 성공했습니다.");
       })
       .catch((error) => console.log(error));
     // apis
@@ -102,6 +106,7 @@ const AddPage = () => {
       endAt: date.toISOString().substring(0, 10),
       minimum: data.get("minimum"),
       price: data.get("price"),
+      imageUrl: imageUrlLink,
     };
     if (data.get("title").length < 1) {
       alert("프로젝트 이름을 적어주세요");
@@ -129,6 +134,7 @@ const AddPage = () => {
     ) {
       alert("최소 후원자 수를 입력해주세요.");
     } else {
+      console.log(contents);
       dispatch(postActions.addPostDB(contents));
     }
   };
@@ -181,7 +187,6 @@ const AddPage = () => {
           onChange={filePreview}
           accept="image/*"
         /> */}
-        <Button onClick={addImage}>버튼</Button>
         <TextField
           required
           id="outlined-required"
@@ -226,9 +231,9 @@ const AddPage = () => {
           variant="contained"
           component="label"
           color="error"
-          sx={{ backgroundColor: "#f86453", mt: 5, mb: 10 }}
+          sx={{ backgroundColor: "#f86453", mt: 5, mb: 10, mr: 2 }}
         >
-          Upload File
+          사진 선택하기
           <input
             type="file"
             onChange={filePreview}
@@ -237,6 +242,15 @@ const AddPage = () => {
             hidden
             // accept="image/*"
           />
+        </Button>
+        <Button
+          variant="contained"
+          component="label"
+          color="error"
+          onClick={addImage}
+          sx={{ backgroundColor: "#f86453", mt: 5, mb: 10 }}
+        >
+          사진 업로드하기
         </Button>
         <Typography
           component="h1"
